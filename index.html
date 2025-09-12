@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Release Performance Tests</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9fafb;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .container {
+      max-width: 800px;
+      width: 100%;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .release {
+      background: #fff;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .release h2 {
+      margin: 0 0 15px;
+      font-size: 1.2em;
+      color: #2563eb;
+    }
+    .links {
+      display: flex;
+      gap: 15px;
+    }
+    .links a, .links span {
+      text-decoration: none;
+      background: #2563eb;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+    .links a:hover {
+      background: #1d4ed8;
+    }
+    /* Disabled state */
+    .links .disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Production - WEB Performance Tests</h1>
+
+    <div class="release">
+      <h2>p1-release-29</h2>
+      <div class="links">
+        <span class="disabled">Homerun</span>
+        <span class="disabled">Baristina</span>
+      </div>
+    </div>
+
+    <div class="release">
+      <h2>p1-release-28</h2>
+      <div class="links">
+        <a href="https://ascend-sw.github.io/homerun/index.html" target="_blank">Homerun</a>
+        <a href="https://ascend-sw.github.io/baristina/index.html" target="_blank">Baristina</a>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
