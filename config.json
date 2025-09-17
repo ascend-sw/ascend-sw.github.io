@@ -1,0 +1,23 @@
+{
+  "browsertime": {
+    "iterations": 1,
+    "browser": "chrome",
+    "viewPort": "428x926",
+    "connectivity": {
+      "profile": "4g"
+    },
+    "screenshotParams": {
+      "maxSize": 10
+    },
+    "headless": true,
+    "chrome": {
+      "CPUThrottlingRate": 5,
+      "enableTraceScreenshots": false
+    }
+  },
+  "html": {
+    "fetchHARFiles": true
+  },
+  "gzipHAR": true,
+  "slug": "home-appliances"
+}
