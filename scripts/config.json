@@ -1,0 +1,26 @@
+{
+  "browsertime": {
+    "iterations": 10,
+    "browser": "chrome",
+    "viewPort": "428x926",
+    "connectivity": {
+      "profile": "4g"
+    },
+    "screenshotParams": {
+      "maxSize": 10
+    },
+    "headless": true,
+    "chrome": {
+      "CPUThrottlingRate": 4,
+      "enableTraceScreenshots": false
+    }
+  },
+  "html": {
+    "fetchHARFiles": true
+  },
+  "plugins": {
+    "add": ["analysisstorer"]
+  },
+  "gzipHAR": true,
+  "slug": "versuni"
+}

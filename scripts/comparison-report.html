@@ -1,0 +1,1626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sitespeed.io Comparison Report</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family:"Inter",sans-serif; margin:0; background:#1f2937; color:#f9fafb; }
+    header { background:#111827; padding:1rem 2rem; text-align:center; border-bottom:1px solid #374151; }
+    h1 { margin:0; font-size:1.75rem; font-weight:600; }
+    a { color:#f9fafb; text-decoration:none; display:block; margin-bottom:1rem; }
+    .container { display:grid; grid-template-columns:1fr; gap:2rem; padding:2rem; max-width:1400px; margin:auto; }
+    .panel { background:#111827; border:1px solid #374151; border-radius:10px; padding:1.5rem; box-shadow:0 2px 6px rgba(0,0,0,0.5); }
+    .panel-release { background:#111827; border:1px solid #374151; display: grid; grid-template-columns: 1fr 1fr; border-radius:10px; padding:1.5rem; box-shadow:0 2px 6px rgba(0,0,0,0.5); }
+    table { width:100%; border-collapse:collapse; margin-top:1rem; }
+    thead { background:#374151; }
+    th, td { padding:12px 16px; text-align:center; }
+    tr:nth-child(even){ background:#1f2937; }
+    tr:nth-child(odd){ background:#111827; }
+    td:first-child{ text-align:left; font-weight:500; }
+    canvas{ max-width:100%; }
+    .delta-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(300px,1fr)); gap:1.5rem; }
+    .footer{ text-align:center; margin-top:2rem; font-size:0.875rem; color:#9ca3af; }
+  </style>
+</head>
+<body>
+  <header><h1>📊 Homerun - Release Performance Comparison</h1></header>
+  <div class="container">
+    
+      <div class="panel">
+        <h2><a href="" target="_blank">GLOBAL Website Performance</a></h2>
+        <table>
+          <thead>
+            <tr><th>Metric</th><th>release-28</th><th>release-29</th><th>Δ</th><th>Δ%</th></tr>
+          </thead>
+          <tbody>
+        <tr>
+          <td>TTFB</td>
+          <td>391 ms</td>
+          <td>383 ms</td>
+          <td style="color:#10b981;font-weight:bold;">
+            -8 ms ↓
+          </td>
+          <td style="color:#10b981;font-weight:bold;">
+            -2.05%
+          </td>
+        </tr>
+
+        <tr>
+          <td>FCP</td>
+          <td>1508 ms</td>
+          <td>589 ms</td>
+          <td style="color:#10b981;font-weight:bold;">
+            -919 ms ↓
+          </td>
+          <td style="color:#10b981;font-weight:bold;">
+            -60.94%
+          </td>
+        </tr>
+
+        <tr>
+          <td>LCP</td>
+          <td>4476 ms</td>
+          <td>4924 ms</td>
+          <td style="color:#ef4444;font-weight:bold;">
+            +448 ms ↑
+          </td>
+          <td style="color:#ef4444;font-weight:bold;">
+            +10.01%
+          </td>
+        </tr>
+
+        <tr>
+          <td>TBT</td>
+          <td>4465 ms</td>
+          <td>3434 ms</td>
+          <td style="color:#10b981;font-weight:bold;">
+            -1031 ms ↓
+          </td>
+          <td style="color:#10b981;font-weight:bold;">
+            -23.09%
+          </td>
+        </tr>
+
+        <tr>
+          <td>CLS</td>
+          <td>0.179</td>
+          <td>0.211</td>
+          <td style="color:#ef4444;font-weight:bold;">
+            +0.033 ↑
+          </td>
+          <td style="color:#ef4444;font-weight:bold;">
+            +18.17%
+          </td>
+        </tr></tbody>
+        </table>
+        <div class="delta-grid">
+      <div class="panel">
+        <h3>TTFB</h3>
+        <canvas id="GLOBAL Website Performance_chart_0"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>FCP</h3>
+        <canvas id="GLOBAL Website Performance_chart_1"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>LCP</h3>
+        <canvas id="GLOBAL Website Performance_chart_2"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>TBT</h3>
+        <canvas id="GLOBAL Website Performance_chart_3"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>CLS</h3>
+        <canvas id="GLOBAL Website Performance_chart_4"></canvas>
+      </div>
+    </div>
+      </div>
+      <script>
+      new Chart(document.getElementById('GLOBAL Website Performance_chart_0').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'TTFB (ms)',
+            data: [391, 383],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('GLOBAL Website Performance_chart_1').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'FCP (ms)',
+            data: [1508, 589],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('GLOBAL Website Performance_chart_2').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'LCP (ms)',
+            data: [4476, 4924],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('GLOBAL Website Performance_chart_3').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'TBT (ms)',
+            data: [4465, 3434],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('GLOBAL Website Performance_chart_4').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'CLS ()',
+            data: [0.1789, 0.2114],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });</script>
+    
+
+      <div class="panel">
+        <h2><a href="https://www.home-appliances.philips/pl/pl/" target="_blank">HOMEPAGE</a></h2>
+        <table>
+          <thead>
+            <tr><th>Metric</th><th>release-28</th><th>release-29</th><th>Δ</th><th>Δ%</th></tr>
+          </thead>
+          <tbody>
+        <tr>
+          <td>TTFB</td>
+          <td>444 ms</td>
+          <td>388 ms</td>
+          <td style="color:#10b981;font-weight:bold;">
+            -56 ms ↓
+          </td>
+          <td style="color:#10b981;font-weight:bold;">
+            -12.61%
+          </td>
+        </tr>
+
+        <tr>
+          <td>FCP</td>
+          <td>592 ms</td>
+          <td>565 ms</td>
+          <td style="color:#10b981;font-weight:bold;">
+            -27 ms ↓
+          </td>
+          <td style="color:#10b981;font-weight:bold;">
+            -4.56%
+          </td>
+        </tr>
+
+        <tr>
+          <td>LCP</td>
+          <td>1226 ms</td>
+          <td>1029 ms</td>
+          <td style="color:#10b981;font-weight:bold;">
+            -197 ms ↓
+          </td>
+          <td style="color:#10b981;font-weight:bold;">
+            -16.07%
+          </td>
+        </tr>
+
+        <tr>
+          <td>TBT</td>
+          <td>4490 ms</td>
+          <td>2922 ms</td>
+          <td style="color:#10b981;font-weight:bold;">
+            -1568 ms ↓
+          </td>
+          <td style="color:#10b981;font-weight:bold;">
+            -34.92%
+          </td>
+        </tr>
+
+        <tr>
+          <td>CLS</td>
+          <td>1.243</td>
+          <td>0.577</td>
+          <td style="color:#10b981;font-weight:bold;">
+            -0.666 ↓
+          </td>
+          <td style="color:#10b981;font-weight:bold;">
+            -53.56%
+          </td>
+        </tr></tbody>
+        </table>
+        <div class="delta-grid">
+      <div class="panel">
+        <h3>TTFB</h3>
+        <canvas id="HOMEPAGE_chart_0"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>FCP</h3>
+        <canvas id="HOMEPAGE_chart_1"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>LCP</h3>
+        <canvas id="HOMEPAGE_chart_2"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>TBT</h3>
+        <canvas id="HOMEPAGE_chart_3"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>CLS</h3>
+        <canvas id="HOMEPAGE_chart_4"></canvas>
+      </div>
+    </div>
+      </div>
+      <script>
+      new Chart(document.getElementById('HOMEPAGE_chart_0').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'TTFB (ms)',
+            data: [444, 388],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('HOMEPAGE_chart_1').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'FCP (ms)',
+            data: [592, 565],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('HOMEPAGE_chart_2').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'LCP (ms)',
+            data: [1226, 1029],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('HOMEPAGE_chart_3').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'TBT (ms)',
+            data: [4490, 2922],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('HOMEPAGE_chart_4').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'CLS ()',
+            data: [1.243, 0.5772],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });</script>
+    
+
+      <div class="panel">
+        <h2><a href="https://www.home-appliances.philips/pl/pl/home-life-products/coffee/philips-full-automatic-espresso/super-automatic-espresso-machines/c/SUPER_AUTOMATIC_ESPRESSO_SU" target="_blank">PLP</a></h2>
+        <table>
+          <thead>
+            <tr><th>Metric</th><th>release-28</th><th>release-29</th><th>Δ</th><th>Δ%</th></tr>
+          </thead>
+          <tbody>
+        <tr>
+          <td>TTFB</td>
+          <td>448 ms</td>
+          <td>377 ms</td>
+          <td style="color:#10b981;font-weight:bold;">
+            -71 ms ↓
+          </td>
+          <td style="color:#10b981;font-weight:bold;">
+            -15.85%
+          </td>
+        </tr>
+
+        <tr>
+          <td>FCP</td>
+          <td>615 ms</td>
+          <td>588 ms</td>
+          <td style="color:#10b981;font-weight:bold;">
+            -27 ms ↓
+          </td>
+          <td style="color:#10b981;font-weight:bold;">
+            -4.39%
+          </td>
+        </tr>
+
+        <tr>
+          <td>LCP</td>
+          <td>972 ms</td>
+          <td>861 ms</td>
+          <td style="color:#10b981;font-weight:bold;">
+            -111 ms ↓
+          </td>
+          <td style="color:#10b981;font-weight:bold;">
+            -11.42%
+          </td>
+        </tr>
+
+        <tr>
+          <td>TBT</td>
+          <td>4000 ms</td>
+          <td>3261 ms</td>
+          <td style="color:#10b981;font-weight:bold;">
+            -739 ms ↓
+          </td>
+          <td style="color:#10b981;font-weight:bold;">
+            -18.48%
+          </td>
+        </tr>
+
+        <tr>
+          <td>CLS</td>
+          <td>0.048</td>
+          <td>0.045</td>
+          <td style="color:#10b981;font-weight:bold;">
+            -0.003 ↓
+          </td>
+          <td style="color:#10b981;font-weight:bold;">
+            -6.68%
+          </td>
+        </tr></tbody>
+        </table>
+        <div class="delta-grid">
+      <div class="panel">
+        <h3>TTFB</h3>
+        <canvas id="PLP_chart_0"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>FCP</h3>
+        <canvas id="PLP_chart_1"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>LCP</h3>
+        <canvas id="PLP_chart_2"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>TBT</h3>
+        <canvas id="PLP_chart_3"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>CLS</h3>
+        <canvas id="PLP_chart_4"></canvas>
+      </div>
+    </div>
+      </div>
+      <script>
+      new Chart(document.getElementById('PLP_chart_0').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'TTFB (ms)',
+            data: [448, 377],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('PLP_chart_1').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'FCP (ms)',
+            data: [615, 588],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('PLP_chart_2').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'LCP (ms)',
+            data: [972, 861],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('PLP_chart_3').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'TBT (ms)',
+            data: [4000, 3261],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('PLP_chart_4').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'CLS ()',
+            data: [0.0479, 0.0447],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });</script>
+    
+
+      <div class="panel">
+        <h2><a href="https://www.home-appliances.philips/pl/pl/p/EP5546_70" target="_blank">PDP</a></h2>
+        <table>
+          <thead>
+            <tr><th>Metric</th><th>release-28</th><th>release-29</th><th>Δ</th><th>Δ%</th></tr>
+          </thead>
+          <tbody>
+        <tr>
+          <td>TTFB</td>
+          <td>410 ms</td>
+          <td>383 ms</td>
+          <td style="color:#10b981;font-weight:bold;">
+            -27 ms ↓
+          </td>
+          <td style="color:#10b981;font-weight:bold;">
+            -6.59%
+          </td>
+        </tr>
+
+        <tr>
+          <td>FCP</td>
+          <td>616 ms</td>
+          <td>563 ms</td>
+          <td style="color:#10b981;font-weight:bold;">
+            -53 ms ↓
+          </td>
+          <td style="color:#10b981;font-weight:bold;">
+            -8.60%
+          </td>
+        </tr>
+
+        <tr>
+          <td>LCP</td>
+          <td>872 ms</td>
+          <td>818 ms</td>
+          <td style="color:#10b981;font-weight:bold;">
+            -54 ms ↓
+          </td>
+          <td style="color:#10b981;font-weight:bold;">
+            -6.19%
+          </td>
+        </tr>
+
+        <tr>
+          <td>TBT</td>
+          <td>5995 ms</td>
+          <td>4871 ms</td>
+          <td style="color:#10b981;font-weight:bold;">
+            -1124 ms ↓
+          </td>
+          <td style="color:#10b981;font-weight:bold;">
+            -18.75%
+          </td>
+        </tr>
+
+        <tr>
+          <td>CLS</td>
+          <td>0.120</td>
+          <td>0.153</td>
+          <td style="color:#ef4444;font-weight:bold;">
+            +0.033 ↑
+          </td>
+          <td style="color:#ef4444;font-weight:bold;">
+            +27.14%
+          </td>
+        </tr></tbody>
+        </table>
+        <div class="delta-grid">
+      <div class="panel">
+        <h3>TTFB</h3>
+        <canvas id="PDP_chart_0"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>FCP</h3>
+        <canvas id="PDP_chart_1"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>LCP</h3>
+        <canvas id="PDP_chart_2"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>TBT</h3>
+        <canvas id="PDP_chart_3"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>CLS</h3>
+        <canvas id="PDP_chart_4"></canvas>
+      </div>
+    </div>
+      </div>
+      <script>
+      new Chart(document.getElementById('PDP_chart_0').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'TTFB (ms)',
+            data: [410, 383],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('PDP_chart_1').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'FCP (ms)',
+            data: [616, 563],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('PDP_chart_2').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'LCP (ms)',
+            data: [872, 818],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('PDP_chart_3').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'TBT (ms)',
+            data: [5995, 4871],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('PDP_chart_4').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'CLS ()',
+            data: [0.1201, 0.1527],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });</script>
+    
+
+      <div class="panel">
+        <h2><a href="https://www.home-appliances.philips/pl/pl/u/coffee-machines" target="_blank">Category Page</a></h2>
+        <table>
+          <thead>
+            <tr><th>Metric</th><th>release-28</th><th>release-29</th><th>Δ</th><th>Δ%</th></tr>
+          </thead>
+          <tbody>
+        <tr>
+          <td>TTFB</td>
+          <td>348 ms</td>
+          <td>382 ms</td>
+          <td style="color:#ef4444;font-weight:bold;">
+            +34 ms ↑
+          </td>
+          <td style="color:#ef4444;font-weight:bold;">
+            +9.77%
+          </td>
+        </tr>
+
+        <tr>
+          <td>FCP</td>
+          <td>554 ms</td>
+          <td>602 ms</td>
+          <td style="color:#ef4444;font-weight:bold;">
+            +48 ms ↑
+          </td>
+          <td style="color:#ef4444;font-weight:bold;">
+            +8.66%
+          </td>
+        </tr>
+
+        <tr>
+          <td>LCP</td>
+          <td>9305 ms</td>
+          <td>9419 ms</td>
+          <td style="color:#ef4444;font-weight:bold;">
+            +114 ms ↑
+          </td>
+          <td style="color:#ef4444;font-weight:bold;">
+            +1.23%
+          </td>
+        </tr>
+
+        <tr>
+          <td>TBT</td>
+          <td>2425 ms</td>
+          <td>3447 ms</td>
+          <td style="color:#ef4444;font-weight:bold;">
+            +1022 ms ↑
+          </td>
+          <td style="color:#ef4444;font-weight:bold;">
+            +42.14%
+          </td>
+        </tr>
+
+        <tr>
+          <td>CLS</td>
+          <td>1.360</td>
+          <td>0.937</td>
+          <td style="color:#10b981;font-weight:bold;">
+            -0.423 ↓
+          </td>
+          <td style="color:#10b981;font-weight:bold;">
+            -31.13%
+          </td>
+        </tr></tbody>
+        </table>
+        <div class="delta-grid">
+      <div class="panel">
+        <h3>TTFB</h3>
+        <canvas id="Category Page_chart_0"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>FCP</h3>
+        <canvas id="Category Page_chart_1"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>LCP</h3>
+        <canvas id="Category Page_chart_2"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>TBT</h3>
+        <canvas id="Category Page_chart_3"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>CLS</h3>
+        <canvas id="Category Page_chart_4"></canvas>
+      </div>
+    </div>
+      </div>
+      <script>
+      new Chart(document.getElementById('Category Page_chart_0').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'TTFB (ms)',
+            data: [348, 382],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('Category Page_chart_1').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'FCP (ms)',
+            data: [554, 602],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('Category Page_chart_2').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'LCP (ms)',
+            data: [9305, 9419],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('Category Page_chart_3').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'TBT (ms)',
+            data: [2425, 3447],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('Category Page_chart_4').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'CLS ()',
+            data: [1.36, 0.9366],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });</script>
+    
+
+      <div class="panel">
+        <h2><a href="https://www.home-appliances.philips/pl/pl/u/coffee-machines/philips-full-automatic-espresso" target="_blank">Subcategory Page</a></h2>
+        <table>
+          <thead>
+            <tr><th>Metric</th><th>release-28</th><th>release-29</th><th>Δ</th><th>Δ%</th></tr>
+          </thead>
+          <tbody>
+        <tr>
+          <td>TTFB</td>
+          <td>341 ms</td>
+          <td>394 ms</td>
+          <td style="color:#ef4444;font-weight:bold;">
+            +53 ms ↑
+          </td>
+          <td style="color:#ef4444;font-weight:bold;">
+            +15.54%
+          </td>
+        </tr>
+
+        <tr>
+          <td>FCP</td>
+          <td>581 ms</td>
+          <td>609 ms</td>
+          <td style="color:#ef4444;font-weight:bold;">
+            +28 ms ↑
+          </td>
+          <td style="color:#ef4444;font-weight:bold;">
+            +4.82%
+          </td>
+        </tr>
+
+        <tr>
+          <td>LCP</td>
+          <td>9422 ms</td>
+          <td>9393 ms</td>
+          <td style="color:#10b981;font-weight:bold;">
+            -29 ms ↓
+          </td>
+          <td style="color:#10b981;font-weight:bold;">
+            -0.31%
+          </td>
+        </tr>
+
+        <tr>
+          <td>TBT</td>
+          <td>4379 ms</td>
+          <td>3498 ms</td>
+          <td style="color:#10b981;font-weight:bold;">
+            -881 ms ↓
+          </td>
+          <td style="color:#10b981;font-weight:bold;">
+            -20.12%
+          </td>
+        </tr>
+
+        <tr>
+          <td>CLS</td>
+          <td>0.911</td>
+          <td>0.992</td>
+          <td style="color:#ef4444;font-weight:bold;">
+            +0.081 ↑
+          </td>
+          <td style="color:#ef4444;font-weight:bold;">
+            +8.95%
+          </td>
+        </tr></tbody>
+        </table>
+        <div class="delta-grid">
+      <div class="panel">
+        <h3>TTFB</h3>
+        <canvas id="Subcategory Page_chart_0"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>FCP</h3>
+        <canvas id="Subcategory Page_chart_1"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>LCP</h3>
+        <canvas id="Subcategory Page_chart_2"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>TBT</h3>
+        <canvas id="Subcategory Page_chart_3"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>CLS</h3>
+        <canvas id="Subcategory Page_chart_4"></canvas>
+      </div>
+    </div>
+      </div>
+      <script>
+      new Chart(document.getElementById('Subcategory Page_chart_0').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'TTFB (ms)',
+            data: [341, 394],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('Subcategory Page_chart_1').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'FCP (ms)',
+            data: [581, 609],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('Subcategory Page_chart_2').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'LCP (ms)',
+            data: [9422, 9393],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('Subcategory Page_chart_3').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'TBT (ms)',
+            data: [4379, 3498],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('Subcategory Page_chart_4').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'CLS ()',
+            data: [0.9108, 0.9923],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });</script>
+    
+
+      <div class="panel">
+        <h2><a href="https://www.home-appliances.philips/pl/pl/search/coffee%20machine" target="_blank">Search Results Page</a></h2>
+        <table>
+          <thead>
+            <tr><th>Metric</th><th>release-28</th><th>release-29</th><th>Δ</th><th>Δ%</th></tr>
+          </thead>
+          <tbody>
+        <tr>
+          <td>TTFB</td>
+          <td>398 ms</td>
+          <td>382 ms</td>
+          <td style="color:#10b981;font-weight:bold;">
+            -16 ms ↓
+          </td>
+          <td style="color:#10b981;font-weight:bold;">
+            -4.02%
+          </td>
+        </tr>
+
+        <tr>
+          <td>FCP</td>
+          <td>615 ms</td>
+          <td>583 ms</td>
+          <td style="color:#10b981;font-weight:bold;">
+            -32 ms ↓
+          </td>
+          <td style="color:#10b981;font-weight:bold;">
+            -5.20%
+          </td>
+        </tr>
+
+        <tr>
+          <td>LCP</td>
+          <td>6310 ms</td>
+          <td>4924 ms</td>
+          <td style="color:#10b981;font-weight:bold;">
+            -1386 ms ↓
+          </td>
+          <td style="color:#10b981;font-weight:bold;">
+            -21.97%
+          </td>
+        </tr>
+
+        <tr>
+          <td>TBT</td>
+          <td>4987 ms</td>
+          <td>3276 ms</td>
+          <td style="color:#10b981;font-weight:bold;">
+            -1711 ms ↓
+          </td>
+          <td style="color:#10b981;font-weight:bold;">
+            -34.31%
+          </td>
+        </tr>
+
+        <tr>
+          <td>CLS</td>
+          <td>0.035</td>
+          <td>0.033</td>
+          <td style="color:#10b981;font-weight:bold;">
+            -0.001 ↓
+          </td>
+          <td style="color:#10b981;font-weight:bold;">
+            -4.05%
+          </td>
+        </tr></tbody>
+        </table>
+        <div class="delta-grid">
+      <div class="panel">
+        <h3>TTFB</h3>
+        <canvas id="Search Results Page_chart_0"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>FCP</h3>
+        <canvas id="Search Results Page_chart_1"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>LCP</h3>
+        <canvas id="Search Results Page_chart_2"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>TBT</h3>
+        <canvas id="Search Results Page_chart_3"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>CLS</h3>
+        <canvas id="Search Results Page_chart_4"></canvas>
+      </div>
+    </div>
+      </div>
+      <script>
+      new Chart(document.getElementById('Search Results Page_chart_0').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'TTFB (ms)',
+            data: [398, 382],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('Search Results Page_chart_1').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'FCP (ms)',
+            data: [615, 583],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('Search Results Page_chart_2').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'LCP (ms)',
+            data: [6310, 4924],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('Search Results Page_chart_3').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'TBT (ms)',
+            data: [4987, 3276],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('Search Results Page_chart_4').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'CLS ()',
+            data: [0.0346, 0.0332],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });</script>
+    
+
+      <div class="panel">
+        <h2><a href="https://www.home-appliances.philips/pl/pl/u/coffee-machines/philips-full-automatic-espresso/lattego" target="_blank">Pre Purchase Page</a></h2>
+        <table>
+          <thead>
+            <tr><th>Metric</th><th>release-28</th><th>release-29</th><th>Δ</th><th>Δ%</th></tr>
+          </thead>
+          <tbody>
+        <tr>
+          <td>TTFB</td>
+          <td>390 ms</td>
+          <td>384 ms</td>
+          <td style="color:#10b981;font-weight:bold;">
+            -6 ms ↓
+          </td>
+          <td style="color:#10b981;font-weight:bold;">
+            -1.54%
+          </td>
+        </tr>
+
+        <tr>
+          <td>FCP</td>
+          <td>697 ms</td>
+          <td>604 ms</td>
+          <td style="color:#10b981;font-weight:bold;">
+            -93 ms ↓
+          </td>
+          <td style="color:#10b981;font-weight:bold;">
+            -13.34%
+          </td>
+        </tr>
+
+        <tr>
+          <td>LCP</td>
+          <td>9710 ms</td>
+          <td>9879 ms</td>
+          <td style="color:#ef4444;font-weight:bold;">
+            +169 ms ↑
+          </td>
+          <td style="color:#ef4444;font-weight:bold;">
+            +1.74%
+          </td>
+        </tr>
+
+        <tr>
+          <td>TBT</td>
+          <td>3474 ms</td>
+          <td>4262 ms</td>
+          <td style="color:#ef4444;font-weight:bold;">
+            +788 ms ↑
+          </td>
+          <td style="color:#ef4444;font-weight:bold;">
+            +22.68%
+          </td>
+        </tr>
+
+        <tr>
+          <td>CLS</td>
+          <td>0.353</td>
+          <td>0.241</td>
+          <td style="color:#10b981;font-weight:bold;">
+            -0.112 ↓
+          </td>
+          <td style="color:#10b981;font-weight:bold;">
+            -31.76%
+          </td>
+        </tr></tbody>
+        </table>
+        <div class="delta-grid">
+      <div class="panel">
+        <h3>TTFB</h3>
+        <canvas id="Pre Purchase Page_chart_0"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>FCP</h3>
+        <canvas id="Pre Purchase Page_chart_1"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>LCP</h3>
+        <canvas id="Pre Purchase Page_chart_2"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>TBT</h3>
+        <canvas id="Pre Purchase Page_chart_3"></canvas>
+      </div>
+    
+      <div class="panel">
+        <h3>CLS</h3>
+        <canvas id="Pre Purchase Page_chart_4"></canvas>
+      </div>
+    </div>
+      </div>
+      <script>
+      new Chart(document.getElementById('Pre Purchase Page_chart_0').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'TTFB (ms)',
+            data: [390, 384],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('Pre Purchase Page_chart_1').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'FCP (ms)',
+            data: [697, 604],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('Pre Purchase Page_chart_2').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'LCP (ms)',
+            data: [9710, 9879],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('Pre Purchase Page_chart_3').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'TBT (ms)',
+            data: [3474, 4262],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });
+
+      new Chart(document.getElementById('Pre Purchase Page_chart_4').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ['release-28', 'release-29'],
+          datasets: [{
+            label: 'CLS ()',
+            data: [0.353, 0.2409],
+            backgroundColor: ['#3b82f6', '#10b981']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
+            y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
+          }
+        }
+      });</script>
+    
+    <div class="panel-release">
+        <div>
+            <h2>Homerun - release reports</h2>
+            <div>
+                <a href="https://ascend-sw.github.io/homerun/release-29/" target="_blank"><b>release-30</b> (comming soon)</a>
+                <a href="https://ascend-sw.github.io/homerun/release-29/" target="_blank"><b>release-29</b> (16.09.2025)</a>
+                <a href="https://ascend-sw.github.io/homerun/release-28/" target="_blank"><b>release-28</b> (02.09.2025)</a>
+            </div>
+        </div>
+        <div>
+            <h2>Baristina - release reports</h2>
+            <div>
+                <a href="https://ascend-sw.github.io/baristina/release-29/" target="_blank"><b>release-30</b> (comming soon)</a>
+                <a href="https://ascend-sw.github.io/baristina/release-29/" target="_blank"><b>release-29</b> (16.09.2025)</a>
+                <a href="https://ascend-sw.github.io/baristina/release-28/" target="_blank"><b>release-28</b> (02.09.2025)</a>
+            </div>
+        </div>
+    </div>
+    <div class="panel">
+        <h2>Metric Details</h2>
+        <p><b>FCP (First Contentful Paint): </b>measures the time from navigation to the time when the browser renders the first bit of content from the DOM</p>
+        <p><b>TBT (Total Blocking Time): </b>the blocking time of a given long task is its duration in excess of 50 ms. And the total blocking time for a page is the sum of the blocking time for each long task that happens after first contentful paint.</p>
+        <p><b>LCP (Largest Contentful Paint): </b>this metric reports the render time of the largest content element visible in the viewport.</p>
+        <p><b>CLS (Cumulative Layout Shift): </b>measures the sum total of all individual layout shift scores for unexpected layout shift that occur. The metric is measuring visual stability by quantify how often users experience unexpected layout shifts. It is one of Google Web Vitals.</p>
+        <p><b>TTFB (Time To First Byte): </b>The time it takes for the network and the server to generate and start sending the HTML. Collected using the Navigation Timing API with the definition: responseStart - navigationStart</p>
+    </div>
+  </div>
+  <div class="footer">Generated on 9/22/2025, 5:36:46 PM</div>
+</body>
+</html>

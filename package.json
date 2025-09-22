@@ -1,0 +1,10 @@
+{
+  "name": "web-performance-reports",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test-homerun": "sitespeed.io scripts/homerun_urls.txt --config scripts/config.json",
+    "generate-report": "node scripts/compare-results.js homerun/release-28/data/browsertime.summary-total.json homerun/release-29/data/browsertime.summary-total.json",
+    "homerun-e2e-speed": "node scripts/homerun-e2e-speed.js"
+  }
+}
