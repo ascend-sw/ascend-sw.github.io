@@ -68,22 +68,7 @@ async function generateHTMLReport() {
         [
             'scripts/compare-results.js',
             'comparison-report.html',
-            'homerun/release-28/data/browsertime.summary-total.json',
-            'homerun/release-29/data/browsertime.summary-total.json',
-            'homerun/release-28/pages/www_home-appliances_philips/HOMEPAGE/data/browsertime.pageSummary.json',
-            'homerun/release-29/pages/www_home-appliances_philips/HOMEPAGE/data/browsertime.pageSummary.json',
-            'homerun/release-28/pages/www_home-appliances_philips/PLP/data/browsertime.pageSummary.json',
-            'homerun/release-29/pages/www_home-appliances_philips/PLP/data/browsertime.pageSummary.json',
-            'homerun/release-28/pages/www_home-appliances_philips/PDP/data/browsertime.pageSummary.json',
-            'homerun/release-29/pages/www_home-appliances_philips/PDP/data/browsertime.pageSummary.json',
-            'homerun/release-28/pages/www_home-appliances_philips/Category_page/data/browsertime.pageSummary.json',
-            'homerun/release-29/pages/www_home-appliances_philips/Category_page/data/browsertime.pageSummary.json',
-            'homerun/release-28/pages/www_home-appliances_philips/Subcategory_page/data/browsertime.pageSummary.json',
-            'homerun/release-29/pages/www_home-appliances_philips/Subcategory_page/data/browsertime.pageSummary.json',
-            'homerun/release-28/pages/www_home-appliances_philips/Search_results_page/data/browsertime.pageSummary.json',
-            'homerun/release-29/pages/www_home-appliances_philips/Search_results_page/data/browsertime.pageSummary.json',
-            'homerun/release-28/pages/www_home-appliances_philips/Pre_purchase_page/data/browsertime.pageSummary.json',
-            'homerun/release-29/pages/www_home-appliances_philips/Pre_purchase_page/data/browsertime.pageSummary.json'
+            'homerun/'
         ]);
 
     child.stdout.on('data', (data) => {
@@ -148,10 +133,10 @@ async function runWorkflow() {
     const sourceFolder = `${releaseName}`;
     const destinationFolder = `homerun/${releaseName}`;
 
-    if (process.argv.length < 3) {
-        console.log('Please provide a release name as an argument. Example: node scripts/homerun-e2e-speed.js release-29');
-        process.exit(1);
-    }
+    // if (process.argv.length < 3) {
+    //     console.log('Please provide a release name as an argument. Example: node scripts/homerun-e2e-speed.js release-29');
+    //     process.exit(1);
+    // }
 
     try {
         // Step 1: Remove the old directory
