@@ -3,5 +3,5 @@ https://www.home-appliances.philips/pl/pl/u/coffee-machines Category_page
 https://www.home-appliances.philips/pl/pl/u/coffee-machines/philips-full-automatic-espresso Subcategory_page
 https://www.home-appliances.philips/pl/pl/u/coffee-machines/philips-full-automatic-espresso/lattego Pre_purchase_page
 https://www.home-appliances.philips/pl/pl/home-life-products/coffee/philips-full-automatic-espresso/super-automatic-espresso-machines/c/SUPER_AUTOMATIC_ESPRESSO_SU PLP
-https://www.home-appliances.philips/pl/pl/p/EP5546_70 PDP
+https://www.home-appliances.philips/pl/pl/p/EP5547_90 PDP
 https://www.home-appliances.philips/pl/pl/search/coffee%20machine Search_results_page
