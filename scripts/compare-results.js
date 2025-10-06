@@ -1,243 +1,3 @@
-// const fs = require('fs');
-// const path = require('path');
-//
-// // ---- Helpers ----
-// function loadJson(filePath) {
-//     try {
-//         return JSON.parse(fs.readFileSync(filePath, 'utf8'));
-//     } catch (e) {
-//         console.error(`❌ Could not load ${filePath}:`, e.message);
-//         process.exit(1);
-//     }
-// }
-//
-// // Map metrics to units
-// const metricUnits = {
-//     TTFB: 'ms',
-//     FCP: 'ms',
-//     LCP: 'ms',
-//     TBT: 'ms',
-//     speedIndex: 'ms',
-//     fullyLoaded: 'ms',
-//     CLS: '' // unitless score
-// };
-//
-// function extractMetrics(json) {
-//     const googleWebVitals = json.statistics?.googleWebVitals || json.googleWebVitals || {};
-//
-//     return {
-//         TTFB: googleWebVitals.ttfb?.median || googleWebVitals.ttfb || null,
-//         FCP: googleWebVitals.firstContentfulPaint?.median || googleWebVitals.firstContentfulPaint || null,
-//         LCP: googleWebVitals.largestContentfulPaint?.median || googleWebVitals.largestContentfulPaint || null,
-//         TBT: googleWebVitals.totalBlockingTime?.median || googleWebVitals.totalBlockingTime || null,
-//         CLS: googleWebVitals.cumulativeLayoutShift?.median || googleWebVitals.cumulativeLayoutShift || null
-//     };
-// }
-//
-// function compareMetrics(before, after) {
-//     const results = [];
-//     Object.keys(before).forEach((metric) => {
-//         const b = before[metric];
-//         const a = after[metric];
-//         if (b == null || a == null) return;
-//         const diff = a - b;
-//         const pct = b === 0 ? null : (diff / b) * 100;
-//         results.push({ metric, before: b, after: a, diff, pct, unit: metricUnits[metric] || '' });
-//     });
-//     return results;
-// }
-//
-// function formatValue(value, unit) {
-//     if (value == null) return '-';
-//     if (unit === 'ms') return `${Math.round(value)} ms`;
-//     return value.toFixed(3); // CLS or unitless
-// }
-//
-// function formatPct(pct) {
-//     if (pct == null || isNaN(pct)) return 'N/A';
-//     const sign = pct > 0 ? '+' : '';
-//     return `${sign}${pct.toFixed(2)}%`;
-// }
-//
-// function printConsole(results, section) {
-//     console.log(`\n📊 Performance Comparison: ${section}\n`);
-//     console.log(`Metric                   release-28       release-29        Δ             Δ%`);
-//     console.log('-----------------------------------------------------------------------');
-//     results.forEach(({ metric, before, after, diff, pct, unit }) => {
-//         const sign = diff > 0 ? '+' : '';
-//         console.log(
-//             `${metric.padEnd(22)} ${formatValue(before, unit).padEnd(12)} ${formatValue(after, unit).padEnd(12)} ${sign}${formatValue(diff, unit).padEnd(12)} ${formatPct(pct)}`
-//         );
-//     });
-// }
-//
-// function generateHtml(allResults, outputFile) {
-//     const sectionHtml = allResults.map(({ section, page, results }) => {
-//         const rows = results.map(({ metric, before, after, diff, pct, unit }) => {
-//             const sign = diff > 0 ? '+' : '';
-//             let arrow = '→';
-//             let arrowColor = '#9ca3af';
-//             if (diff < 0) { arrow = '↓'; arrowColor = '#10b981'; }
-//             else if (diff > 0) { arrow = '↑'; arrowColor = '#ef4444'; }
-//             return `
-//         <tr>
-//           <td>${metric}</td>
-//           <td>${formatValue(before, unit)}</td>
-//           <td>${formatValue(after, unit)}</td>
-//           <td style="color:${arrowColor};font-weight:bold;">
-//             ${sign}${formatValue(diff, unit)} ${arrow}
-//           </td>
-//           <td style="color:${arrowColor};font-weight:bold;">
-//             ${formatPct(pct)}
-//           </td>
-//         </tr>`;
-//         }).join('\n');
-//
-//         const charts = results.map((r, i) => `
-//       new Chart(document.getElementById('${section}_chart_${i}').getContext('2d'), {
-//         type: 'bar',
-//         data: {
-//           labels: ['release-28', 'release-29'],
-//           datasets: [{
-//             label: '${r.metric} (${r.unit})',
-//             data: [${r.before}, ${r.after}],
-//             backgroundColor: ['#3b82f6', '#10b981']
-//           }]
-//         },
-//         options: {
-//           responsive: true,
-//           plugins: { legend: { display: false } },
-//           scales: {
-//             x: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } },
-//             y: { ticks: { color: '#f9fafb' }, grid: { color: '#374151' } }
-//           }
-//         }
-//       });`).join('\n');
-//
-//         const chartCanvases = results.map((r, i) => `
-//       <div class="panel">
-//         <h3>${r.metric}</h3>
-//         <canvas id="${section}_chart_${i}"></canvas>
-//       </div>
-//     `).join('');
-//
-//         return `
-//       <div class="panel">
-//         <h2><a href="${page}" target="_blank">${section}</a></h2>
-//         <table>
-//           <thead>
-//             <tr><th>Metric</th><th>release-28</th><th>release-29</th><th>Δ</th><th>Δ%</th></tr>
-//           </thead>
-//           <tbody>${rows}</tbody>
-//         </table>
-//         <div class="delta-grid">${chartCanvases}</div>
-//       </div>
-//       <script>${charts}</script>
-//     `;
-//     }).join('\n');
-//
-//     const html = `<!DOCTYPE html>
-// <html lang="en">
-// <head>
-//   <meta charset="UTF-8">
-//   <title>Sitespeed.io Comparison Report</title>
-//   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-//   <style>
-//     body { font-family:"Inter",sans-serif; margin:0; background:#1f2937; color:#f9fafb; }
-//     header { background:#111827; padding:1rem 2rem; text-align:center; border-bottom:1px solid #374151; }
-//     h1 { margin:0; font-size:1.75rem; font-weight:600; }
-//     a { color:#f9fafb; text-decoration:none; display:block; margin-bottom:1rem; }
-//     .container { display:grid; grid-template-columns:1fr; gap:2rem; padding:2rem; max-width:1400px; margin:auto; }
-//     .panel { background:#111827; border:1px solid #374151; border-radius:10px; padding:1.5rem; box-shadow:0 2px 6px rgba(0,0,0,0.5); }
-//     .panel-release { background:#111827; border:1px solid #374151; display: grid; grid-template-columns: 1fr 1fr; border-radius:10px; padding:1.5rem; box-shadow:0 2px 6px rgba(0,0,0,0.5); }
-//     table { width:100%; border-collapse:collapse; margin-top:1rem; }
-//     thead { background:#374151; }
-//     th, td { padding:12px 16px; text-align:center; }
-//     tr:nth-child(even){ background:#1f2937; }
-//     tr:nth-child(odd){ background:#111827; }
-//     td:first-child{ text-align:left; font-weight:500; }
-//     canvas{ max-width:100%; }
-//     .delta-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(300px,1fr)); gap:1.5rem; }
-//     .footer{ text-align:center; margin-top:2rem; font-size:0.875rem; color:#9ca3af; }
-//   </style>
-// </head>
-// <body>
-//   <header><h1>📊 Homerun - Release Performance Comparison</h1></header>
-//   <div class="container">
-//     ${sectionHtml}
-//     <div class="panel-release">
-//         <div>
-//             <h2>Homerun - release reports</h2>
-//             <div>
-//                 <a href="https://ascend-sw.github.io/homerun/release-30/" target="_blank"><b>release-30</b> (comming soon)</a>
-//                 <a href="https://ascend-sw.github.io/homerun/release-29/" target="_blank"><b>release-29</b> (16.09.2025)</a>
-//                 <a href="https://ascend-sw.github.io/homerun/release-28/" target="_blank"><b>release-28</b> (02.09.2025)</a>
-//             </div>
-//         </div>
-//         <div>
-//             <h2>Baristina - release reports</h2>
-//             <div>
-//                 <a href="https://ascend-sw.github.io/baristina/release-30/" target="_blank"><b>release-30</b> (comming soon)</a>
-//                 <a href="https://ascend-sw.github.io/baristina/release-29/" target="_blank"><b>release-29</b> (16.09.2025)</a>
-//                 <a href="https://ascend-sw.github.io/baristina/release-28/" target="_blank"><b>release-28</b> (02.09.2025)</a>
-//             </div>
-//         </div>
-//     </div>
-//     <div class="panel">
-//         <h2>Metric Details</h2>
-//         <p><b>FCP (First Contentful Paint): </b>measures the time from navigation to the time when the browser renders the first bit of content from the DOM</p>
-//         <p><b>TBT (Total Blocking Time): </b>the blocking time of a given long task is its duration in excess of 50 ms. And the total blocking time for a page is the sum of the blocking time for each long task that happens after first contentful paint.</p>
-//         <p><b>LCP (Largest Contentful Paint): </b>this metric reports the render time of the largest content element visible in the viewport.</p>
-//         <p><b>CLS (Cumulative Layout Shift): </b>measures the sum total of all individual layout shift scores for unexpected layout shift that occur. The metric is measuring visual stability by quantify how often users experience unexpected layout shifts. It is one of Google Web Vitals.</p>
-//         <p><b>TTFB (Time To First Byte): </b>The time it takes for the network and the server to generate and start sending the HTML. Collected using the Navigation Timing API with the definition: responseStart - navigationStart</p>
-//     </div>
-//   </div>
-//   <div class="footer">Generated on ${new Date().toLocaleString()}</div>
-// </body>
-// </html>`;
-//
-//     fs.writeFileSync(outputFile, html, 'utf8');
-//     console.log(`\n✅ HTML report saved to ${outputFile}`);
-// }
-//
-// // ---- Main ----
-// // Usage: node compare-results.js output.html globalBefore.json globalAfter.json homepageBefore.json homepageAfter.json plpBefore.json plpAfter.json pdpBefore.json pdpAfter.json
-// if (process.argv.length < 6) {
-//     console.log('Usage: node compare-results.js <output.html> <globalBefore.json> <globalAfter.json> <homepageBefore.json> <homepageAfter.json> <plpBefore.json> <plpAfter.json> <pdpBefore.json> <pdpAfter.json>');
-//     process.exit(1);
-// }
-//
-// const outputFile = process.argv[2];
-//
-// const sections = [
-//     { name: 'GLOBAL Website Performance', page: '', before: process.argv[3], after: process.argv[4] },
-//     { name: 'HOMEPAGE', page: 'https://www.home-appliances.philips/pl/pl/', before: process.argv[5], after: process.argv[6] },
-//     { name: 'PLP', page: 'https://www.home-appliances.philips/pl/pl/home-life-products/coffee/philips-full-automatic-espresso/super-automatic-espresso-machines/c/SUPER_AUTOMATIC_ESPRESSO_SU', before: process.argv[7], after: process.argv[8] },
-//     { name: 'PDP', page: 'https://www.home-appliances.philips/pl/pl/p/EP5546_70', before: process.argv[9], after: process.argv[10] },
-//     { name: 'Category Page', page: 'https://www.home-appliances.philips/pl/pl/u/coffee-machines', before: process.argv[11], after: process.argv[12] },
-//     { name: 'Subcategory Page', page: 'https://www.home-appliances.philips/pl/pl/u/coffee-machines/philips-full-automatic-espresso', before: process.argv[13], after: process.argv[14] },
-//     { name: 'Search Results Page', page: 'https://www.home-appliances.philips/pl/pl/search/coffee%20machine', before: process.argv[15], after: process.argv[16] },
-//     { name: 'Pre Purchase Page', page: 'https://www.home-appliances.philips/pl/pl/u/coffee-machines/philips-full-automatic-espresso/lattego', before: process.argv[17], after: process.argv[18] },
-// ];
-//
-// const allResults = [];
-//
-// sections.forEach(({ name, page, before, after }) => {
-//     if (!before || !after) return;
-//     const beforeJson = loadJson(path.resolve(before));
-//     const afterJson = loadJson(path.resolve(after));
-//     const beforeMetrics = extractMetrics(beforeJson);
-//     const afterMetrics = extractMetrics(afterJson);
-//     const results = compareMetrics(beforeMetrics, afterMetrics);
-//     // printConsole(results, name);
-//     allResults.push({ section: name, page: page, results });
-// });
-//
-// generateHtml(allResults, outputFile);
-
-
-
-
 const fs = require('fs');
 const path = require('path');
 
@@ -259,6 +19,46 @@ const metricUnits = {
     CLS: ''
 };
 
+function logNormalScore(value, median, podr) {
+    if (value == null) return null;
+
+    // Convert median + PODR into log-normal params
+    const location = Math.log(median);
+    const logRatio = Math.log(podr) - Math.log(median);
+    const shape = Math.log(2) / logRatio; // σ
+    const mu = location;                  // μ
+    const sigma = shape;
+
+    // Standardize
+    const standardized = (Math.log(value) - mu) / sigma;
+
+    // Φ(z): normal CDF
+    const phi = 0.5 * (1 + erf(standardized / Math.sqrt(2)));
+
+    // Clamp between 0–1 and invert (small is good → high score)
+    return Math.round((1 - phi) * 100);
+}
+
+// Error function approximation for Φ
+function erf(x) {
+    // Abramowitz-Stegun approximation
+    const sign = x >= 0 ? 1 : -1;
+    x = Math.abs(x);
+
+    const a1 = 0.254829592,
+        a2 = -0.284496736,
+        a3 = 1.421413741,
+        a4 = -1.453152027,
+        a5 = 1.061405429,
+        p  = 0.3275911;
+
+    const t = 1.0 / (1.0 + p * x);
+    const y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
+
+    return sign * y;
+}
+
+
 function scoreMetric(value, good, poor, inverted = false) {
     if (value == null) return null;
     let score;
@@ -278,13 +78,15 @@ function scoreMetric(value, good, poor, inverted = false) {
 
 function calculatePerfScore(metrics) {
     const scores = {
-        FCP: scoreMetric(metrics.FCP, 1800, 3000),
-        LCP: scoreMetric(metrics.LCP, 2500, 4000),
-        TBT: scoreMetric(metrics.TBT, 200, 600),
-        CLS: scoreMetric(metrics.CLS, 0.1, 0.25, true),
+        FCP:  logNormalScore(metrics.FCP, 1800, 3000),
+        LCP:  logNormalScore(metrics.LCP, 2500, 4000),
+        TBT:  logNormalScore(metrics.TBT, 300, 600),
+        CLS:  logNormalScore(metrics.CLS, 0.1, 0.25),
+        TTFB: logNormalScore(metrics.TTFB, 800, 1800),
     };
 
-    const weights = { FCP: 0.1, LCP: 0.25, TBT: 0.3, CLS: 0.25 };
+    // Lighthouse weighting (v10+)
+    const weights = { FCP: 0.1, LCP: 0.25, TBT: 0.3, CLS: 0.15, TTFB: 0.2 };
     let total = 0, weightSum = 0;
 
     for (const m in scores) {
@@ -296,6 +98,7 @@ function calculatePerfScore(metrics) {
 
     return Math.round(total / weightSum);
 }
+
 
 function extractMetrics(json) {
     const googleWebVitals = json.statistics?.googleWebVitals || json.googleWebVitals || {};
@@ -337,7 +140,7 @@ function compareReleases(metricsByRelease) {
         });
     });
 
-    return results;
+    return { releases, results, metricsByRelease };
 }
 
 function formatValue(value, unit) {
@@ -353,13 +156,69 @@ function formatPct(pct) {
 }
 
 function generateHtml(allResults, releases, outputFile) {
-    const sectionHtml = allResults.map(({ section, page, results }) => {
+    const sectionHtml = allResults.map(({ section, page, results, metricsByRelease }) => {
         const metrics = Object.keys(metricUnits);
 
+        const lastRelease = releases[releases.length - 1];
+        const prevRelease = releases.length > 1 ? releases[releases.length - 2] : null;
+
+        const lastMetrics = metricsByRelease[lastRelease];
+        const prevMetrics = prevRelease ? metricsByRelease[prevRelease] : null;
+
+        const score = calculatePerfScore(lastMetrics) || 0;
+        const prevScore = prevMetrics ? calculatePerfScore(prevMetrics) : null;
+        let scoreDiff = null, scoreArrow = '→', scoreColorDiff = '#9ca3af';
+
+        const scoreColor = score < 50 ? '#ef4444' : score < 90 ? '#f16626' : '#10b981';
+        const scoreBg = score < 50 ? '#fecaca' : score < 90 ? '#ffd3a6' : '#bbf7d0';
+
+        if (prevScore != null) {
+            scoreDiff = score - prevScore;
+            if (scoreDiff > 0) {
+                scoreArrow = '↑';
+                scoreColorDiff = '#10b981'; // green
+            } else if (scoreDiff < 0) {
+                scoreArrow = '↓';
+                scoreColorDiff = '#ef4444'; // red
+            }
+        }
+
+
         const rows = metrics.map(metric => {
-            const cols = releases.map(r => {
+            const cols = releases.map((r, idx) => {
                 const data = results[r].find(m => m.metric === metric);
-                return `<td>${data ? formatValue(data.value, data.unit) : '-'}</td>`;
+                let cellValue = data ? formatValue(data.value, data.unit) : '-';
+
+                // highlight only the last release cell
+                if (idx === releases.length - 1 && data && data.value != null) {
+                    let color = '', bg = '';
+
+                    if (metric === 'CLS') {
+                        // ✅ CLS uses thresholds (Web Vitals buckets)
+                        if (data.value <= 0.1) { color = '#10b981'; }     // green
+                        else if (data.value <= 0.25) { color = '#ff996b'; } // orange
+                        else { color = '#ef4444'; }                        // red
+                    } else {
+                        // ✅ Other metrics use log-normal score
+                        let score;
+                        switch (metric) {
+                            case 'FCP':  score = logNormalScore(data.value, 1800, 3000); break;
+                            case 'LCP':  score = logNormalScore(data.value, 2500, 4000); break;
+                            case 'TBT':  score = logNormalScore(data.value, 300, 600); break;
+                            case 'TTFB': score = logNormalScore(data.value, 800, 1800); break;
+                        }
+
+                        if (score != null) {
+                            if (score < 50) { color = '#ef4444'; }
+                            else if (score < 90) { color = '#ff996b'; }
+                            else { color = '#10b981'; }
+                        }
+                    }
+
+                    cellValue = `<span style="display:inline-block;padding:4px 8px;border-radius:6px;background:${bg};color:${color};font-weight:bold;">${cellValue}</span>`;
+                }
+
+                return `<td>${cellValue}</td>`;
             }).join('');
 
             // compare last vs previous
@@ -408,6 +267,21 @@ function generateHtml(allResults, releases, outputFile) {
 
         return `
       <div class="panel">
+        <div class="score-container">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <p class="score" style="border-color:${scoreColor}; background:${scoreBg}; color:${scoreColor};">${score}</p>
+                <div>
+                    <p style="color:${scoreColorDiff}; font-weight:bold; margin:0;">
+                        ${scoreDiff != null ? `${scoreDiff > 0 ? '+' : ''}${scoreDiff} ${scoreArrow}` : '–'}
+                    </p>
+                </div>
+            </div>
+            <div class="score-metrics">
+                <p>🔴 0-49</p>
+                <p>🟠 50-89</p>
+                <p>🟢 90-100</p>
+            </div>
+        </div>
         <h2><a href="${page}" target="_blank">${section}</a></h2>
         <table>
           <thead>
@@ -431,6 +305,11 @@ function generateHtml(allResults, releases, outputFile) {
     body { font-family:sans-serif; margin:0; background:#1f2937; color:#f9fafb; }
     header { background:#111827; padding:1rem; text-align:center; border-bottom:1px solid #374151; }
     a { color:#f9fafb; text-decoration:none; display:block; margin-bottom:1rem; }
+    .score-container { display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 26px; }
+    .score { background: darkgray; margin: 0; padding: 20px; font-size: 32px; font-weight: 600; border: 4px solid green; border-radius: 50%; }
+    .score-metrics { display: flex; gap: 36px; p { margin: 0; } }
+    .environment-config { display: flex; gap: 30px; justify-content: center; }
+    .environment-config-column { display: flex; justify-content: center; align-items: flex-end; }
     .container { padding:2rem; display:grid; gap:2rem; max-width:1400px; margin:auto; }
     .panel { background:#111827; border:1px solid #374151; border-radius:10px; padding:1rem; }
     .panel-release { background:#111827; border:1px solid #374151; display: grid; grid-template-columns: 1fr 1fr; border-radius:10px; padding:1.5rem; box-shadow:0 2px 6px rgba(0,0,0,0.5); }
@@ -444,7 +323,26 @@ function generateHtml(allResults, releases, outputFile) {
   </style>
 </head>
 <body>
-  <header><h1>📊 Homerun - Multi Release Performance Comparison</h1></header>
+  <header>
+    <h1>📊 Homerun - Release Performance Comparison</h1>
+      <div class="environment-config">
+          <div class="environment-config-column">
+            <span class="text-2xl">📱</span>
+            <span class="text-sm text-gray-400">Platform:&nbsp;</span>
+            <span class="font-semibold">Mobile (avg)</span>
+          </div>
+          <div class="environment-config-column">
+            <span class="text-2xl">🌐</span>
+            <span class="text-sm text-gray-400">Network:&nbsp;</span>
+            <span class="font-semibold">4G (average)</span>
+          </div>
+          <div class="environment-config-column">
+            <span class="text-2xl">📋</span>
+            <span class="text-sm text-gray-400">Executed Tests/Page:&nbsp;</span>
+            <span class="font-semibold">10</span>
+          </div>
+    </div>
+  </header>
   <div class="container">
     ${sectionHtml}
     <div class="panel-release">
@@ -515,8 +413,8 @@ sections.forEach(({ name, page, file }) => {
         const json = loadJson(filePath);
         metricsByRelease[r] = extractMetrics(json);
     });
-    const results = compareReleases(metricsByRelease);
-    allResults.push({ section: name, page, results });
+    const { results } = compareReleases(metricsByRelease);
+    allResults.push({ section: name, page, results, metricsByRelease });
 });
 
 generateHtml(allResults, releases, outputFile);
