@@ -50,7 +50,7 @@ function erf(x) {
         a3 = 1.421413741,
         a4 = -1.453152027,
         a5 = 1.061405429,
-        p  = 0.3275911;
+        p = 0.3275911;
 
     const t = 1.0 / (1.0 + p * x);
     const y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
@@ -78,15 +78,15 @@ function scoreMetric(value, good, poor, inverted = false) {
 
 function calculatePerfScore(metrics) {
     const scores = {
-        FCP:  logNormalScore(metrics.FCP, 1800, 3000),
-        LCP:  logNormalScore(metrics.LCP, 2500, 4000),
-        TBT:  logNormalScore(metrics.TBT, 300, 600),
-        CLS:  logNormalScore(metrics.CLS, 0.1, 0.25),
+        FCP: logNormalScore(metrics.FCP, 1800, 3000),
+        LCP: logNormalScore(metrics.LCP, 2500, 4000),
+        TBT: logNormalScore(metrics.TBT, 300, 600),
+        CLS: logNormalScore(metrics.CLS, 0.1, 0.25),
         TTFB: logNormalScore(metrics.TTFB, 800, 1800),
     };
 
     // Lighthouse weighting (v10+)
-    const weights = { FCP: 0.1, LCP: 0.25, TBT: 0.3, CLS: 0.15, TTFB: 0.2 };
+    const weights = {FCP: 0.1, LCP: 0.25, TBT: 0.3, CLS: 0.15, TTFB: 0.2};
     let total = 0, weightSum = 0;
 
     for (const m in scores) {
@@ -140,7 +140,7 @@ function compareReleases(metricsByRelease) {
         });
     });
 
-    return { releases, results, metricsByRelease };
+    return {releases, results, metricsByRelease};
 }
 
 function formatValue(value, unit) {
@@ -156,7 +156,7 @@ function formatPct(pct) {
 }
 
 function generateHtml(allResults, releases, outputFile) {
-    const sectionHtml = allResults.map(({ section, page, results, metricsByRelease }) => {
+    const sectionHtml = allResults.map(({section, page, results, metricsByRelease}) => {
         const metrics = Object.keys(metricUnits);
 
         const lastRelease = releases[releases.length - 1];
@@ -183,45 +183,70 @@ function generateHtml(allResults, releases, outputFile) {
             }
         }
 
+        // ---- NEW: compute performance score per release ----
+        const scoresOverTime = releases.map(r => calculatePerfScore(metricsByRelease[r]) || 0);
+        const lastScoreValue = scoresOverTime[scoresOverTime.length - 1];
 
+        // dynamic color based on last score
+        let lineColor = '#10b981', fillColor = 'rgba(16,185,129,0.2)';
+        if (lastScoreValue < 50) {
+            lineColor = '#ef4444';
+            fillColor = 'rgba(239,68,68,0.2)';
+        } else if (lastScoreValue < 90) {
+            lineColor = '#f16626';
+            fillColor = 'rgba(241,102,38,0.2)';
+        }
+
+        const scoreChartId = `${section.replace(/\s+/g, '_')}_score_chart`;
+
+        // ---- Table rows (existing logic) ----
         const rows = metrics.map(metric => {
             const cols = releases.map((r, idx) => {
                 const data = results[r].find(m => m.metric === metric);
                 let cellValue = data ? formatValue(data.value, data.unit) : '-';
 
-                // highlight only the last release cell
                 if (idx === releases.length - 1 && data && data.value != null) {
                     let color = '', bg = '';
-
                     if (metric === 'CLS') {
-                        // ✅ CLS uses thresholds (Web Vitals buckets)
-                        if (data.value <= 0.1) { color = '#10b981'; }     // green
-                        else if (data.value <= 0.25) { color = '#ff996b'; } // orange
-                        else { color = '#ef4444'; }                        // red
+                        if (data.value <= 0.1) {
+                            color = '#10b981';
+                        } else if (data.value <= 0.25) {
+                            color = '#ff996b';
+                        } else {
+                            color = '#ef4444';
+                        }
                     } else {
-                        // ✅ Other metrics use log-normal score
                         let score;
                         switch (metric) {
-                            case 'FCP':  score = logNormalScore(data.value, 1800, 3000); break;
-                            case 'LCP':  score = logNormalScore(data.value, 2500, 4000); break;
-                            case 'TBT':  score = logNormalScore(data.value, 300, 600); break;
-                            case 'TTFB': score = logNormalScore(data.value, 800, 1800); break;
+                            case 'FCP':
+                                score = logNormalScore(data.value, 1800, 3000);
+                                break;
+                            case 'LCP':
+                                score = logNormalScore(data.value, 2500, 4000);
+                                break;
+                            case 'TBT':
+                                score = logNormalScore(data.value, 300, 600);
+                                break;
+                            case 'TTFB':
+                                score = logNormalScore(data.value, 800, 1800);
+                                break;
                         }
-
                         if (score != null) {
-                            if (score < 50) { color = '#ef4444'; }
-                            else if (score < 90) { color = '#ff996b'; }
-                            else { color = '#10b981'; }
+                            if (score < 50) {
+                                color = '#ef4444';
+                            } else if (score < 90) {
+                                color = '#ff996b';
+                            } else {
+                                color = '#10b981';
+                            }
                         }
                     }
-
                     cellValue = `<span style="display:inline-block;padding:4px 8px;border-radius:6px;background:${bg};color:${color};font-weight:bold;">${cellValue}</span>`;
                 }
 
                 return `<td>${cellValue}</td>`;
             }).join('');
 
-            // compare last vs previous
             const last = results[releases[releases.length - 1]].find(m => m.metric === metric);
             const arrow = last?.diff < 0 ? '↓' : last?.diff > 0 ? '↑' : '→';
             const color = last?.diff < 0 ? '#10b981' : last?.diff > 0 ? '#ef4444' : '#9ca3af';
@@ -239,13 +264,12 @@ function generateHtml(allResults, releases, outputFile) {
       </tr>`;
         }).join('\n');
 
-        // Chart.js dataset for each metric
+        // ---- Metric charts ----
         const charts = metrics.map((metric, i) => {
             const values = releases.map(r => {
                 const data = results[r].find(m => m.metric === metric);
                 return data?.value ?? 'null';
             });
-
             return `
       new Chart(document.getElementById('${section}_chart_${i}').getContext('2d'), {
         type: 'bar',
@@ -261,10 +285,75 @@ function generateHtml(allResults, releases, outputFile) {
       });`;
         }).join('\n');
 
+        // ---- FINAL: Performance score per release (numbers above bars, clean look) ----
+        const scoreChartScript = `
+  (() => {
+    const ctx = document.getElementById('${scoreChartId}').getContext('2d');
+    const scores = [${scoresOverTime.join(',')}];
+
+    // Color per score
+    const barColors = scores.map(score => {
+      if (score < 50) return '#ef4444';       // red
+      if (score < 90) return '#f16626';       // orange
+      return '#10b981';                       // green
+    });
+
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ${JSON.stringify(releases)},
+        datasets: [{
+          label: 'Performance Score',
+          data: scores,
+          backgroundColor: barColors,
+          borderColor: barColors,
+          borderWidth: 2,
+          borderRadius: 8,
+          hoverBackgroundColor: barColors.map(c => c + 'CC')
+        }]
+      },
+      options: {
+        responsive: true,
+        layout: { padding: { top: 20 } },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: ctx => \`Score: \${ctx.parsed.y}\`
+            }
+          },
+          // --- Label numbers ABOVE bars ---
+          datalabels: {
+            color: '#f9fafb',
+            anchor: 'end',     // attach label to the top of the bar
+            align: 'top',      // position label above the bar
+            offset: 6,         // move label a few pixels higher
+            font: {
+              weight: 'bold',
+              size: 14
+            },
+            formatter: value => Math.round(value)
+          }
+        },
+        scales: {
+          x: { ticks: { color: '#f9fafb' } },
+          y: {
+            ticks: { color: '#f9fafb' },
+            beginAtZero: true,
+            max: 100
+          }
+        }
+      },
+      plugins: [ChartDataLabels]
+    });
+  })();
+`;
+
         const chartCanvases = metrics.map((m, i) => `
       <div class="panel"><h3>${m}</h3><canvas id="${section}_chart_${i}"></canvas></div>
     `).join('');
 
+        // ---- Section layout ----
         return `
       <div class="panel">
         <div class="score-container">
@@ -283,6 +372,7 @@ function generateHtml(allResults, releases, outputFile) {
             </div>
         </div>
         <h2><a href="${page}" target="_blank">${section}</a></h2>
+        <canvas id="${scoreChartId}" style="width:100%;max-height:250px;margin-top:20px;"></canvas>
         <table>
           <thead>
             <tr><th>Metric</th>${releases.map(r => `<th>${r}</th>`).join('')}<th>Δ</th><th>Δ%</th></tr>
@@ -291,7 +381,7 @@ function generateHtml(allResults, releases, outputFile) {
         </table>
         <div class="delta-grid">${chartCanvases}</div>
       </div>
-      <script>${charts}</script>
+      <script>${charts}\n${scoreChartScript}</script>
     `;
     }).join('\n');
 
@@ -301,6 +391,8 @@ function generateHtml(allResults, releases, outputFile) {
   <meta charset="UTF-8">
   <title>Sitespeed.io Multi-Release Report</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
   <style>
     body { font-family:sans-serif; margin:0; background:#1f2937; color:#f9fafb; }
     header { background:#111827; padding:1rem; text-align:center; border-bottom:1px solid #374151; }
@@ -396,27 +488,55 @@ const releases = fs.readdirSync(baseDir)
 
 // Pages (same across releases)
 const sections = [
-    { name: 'GLOBAL Website Performance', page: '', file: 'data/browsertime.summary-total.json' },
-    { name: 'HOMEPAGE', page: 'https://www.home-appliances.philips/pl/pl/', file: 'pages/www_home-appliances_philips/HOMEPAGE/data/browsertime.pageSummary.json' },
-    { name: 'PLP', page: 'https://www.home-appliances.philips/pl/pl/home-life-products/coffee/philips-full-automatic-espresso/super-automatic-espresso-machines/c/SUPER_AUTOMATIC_ESPRESSO_SU', file: 'pages/www_home-appliances_philips/PLP/data/browsertime.pageSummary.json' },
-    { name: 'PDP', page: 'https://www.home-appliances.philips/pl/pl/p/EP5546_70', file: 'pages/www_home-appliances_philips/PDP/data/browsertime.pageSummary.json' },
-    { name: 'Category Page', page: 'https://www.home-appliances.philips/pl/pl/u/coffee-machines', file: 'pages/www_home-appliances_philips/Category_page/data/browsertime.pageSummary.json' },
-    { name: 'Subcategory Page', page: 'https://www.home-appliances.philips/pl/pl/u/coffee-machines/philips-full-automatic-espresso', file: 'pages/www_home-appliances_philips/Subcategory_page/data/browsertime.pageSummary.json' },
-    { name: 'Search Results Page', page: 'https://www.home-appliances.philips/pl/pl/search/coffee%20machine', file: 'pages/www_home-appliances_philips/Search_results_page/data/browsertime.pageSummary.json' },
-    { name: 'Pre Purchase Page', page: 'https://www.home-appliances.philips/pl/pl/u/coffee-machines/philips-full-automatic-espresso/lattego', file: 'pages/www_home-appliances_philips/Pre_purchase_page/data/browsertime.pageSummary.json' }
+    {name: 'GLOBAL Website Performance', page: '', file: 'data/browsertime.summary-total.json'},
+    {
+        name: 'HOMEPAGE',
+        page: 'https://www.home-appliances.philips/pl/pl/',
+        file: 'pages/www_home-appliances_philips/HOMEPAGE/data/browsertime.pageSummary.json'
+    },
+    {
+        name: 'PLP',
+        page: 'https://www.home-appliances.philips/pl/pl/home-life-products/coffee/philips-full-automatic-espresso/super-automatic-espresso-machines/c/SUPER_AUTOMATIC_ESPRESSO_SU',
+        file: 'pages/www_home-appliances_philips/PLP/data/browsertime.pageSummary.json'
+    },
+    {
+        name: 'PDP',
+        page: 'https://www.home-appliances.philips/pl/pl/p/EP5546_70',
+        file: 'pages/www_home-appliances_philips/PDP/data/browsertime.pageSummary.json'
+    },
+    {
+        name: 'Category Page',
+        page: 'https://www.home-appliances.philips/pl/pl/u/coffee-machines',
+        file: 'pages/www_home-appliances_philips/Category_page/data/browsertime.pageSummary.json'
+    },
+    {
+        name: 'Subcategory Page',
+        page: 'https://www.home-appliances.philips/pl/pl/u/coffee-machines/philips-full-automatic-espresso',
+        file: 'pages/www_home-appliances_philips/Subcategory_page/data/browsertime.pageSummary.json'
+    },
+    {
+        name: 'Search Results Page',
+        page: 'https://www.home-appliances.philips/pl/pl/search/coffee%20machine',
+        file: 'pages/www_home-appliances_philips/Search_results_page/data/browsertime.pageSummary.json'
+    },
+    {
+        name: 'Pre Purchase Page',
+        page: 'https://www.home-appliances.philips/pl/pl/u/coffee-machines/philips-full-automatic-espresso/lattego',
+        file: 'pages/www_home-appliances_philips/Pre_purchase_page/data/browsertime.pageSummary.json'
+    }
 ];
 
 const allResults = [];
 
-sections.forEach(({ name, page, file }) => {
+sections.forEach(({name, page, file}) => {
     const metricsByRelease = {};
     releases.forEach(r => {
         const filePath = path.join(baseDir, r, file);
         const json = loadJson(filePath);
         metricsByRelease[r] = extractMetrics(json);
     });
-    const { results } = compareReleases(metricsByRelease);
-    allResults.push({ section: name, page, results, metricsByRelease });
+    const {results} = compareReleases(metricsByRelease);
+    allResults.push({section: name, page, results, metricsByRelease});
 });
 
 generateHtml(allResults, releases, outputFile);
