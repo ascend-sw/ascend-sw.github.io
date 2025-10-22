@@ -136,6 +136,14 @@
     
       <div class="panel"><h3>CLS</h3><canvas id="GLOBAL Website Performance_chart_4"></canvas></div>
     </div>
+          <div class="panel" style="margin-top: 25px">
+              <details>
+                  <summary style="cursor: pointer; font-weight: bold">Read more about scoring</summary>
+                  <p>The new CDN used for image delivery has a small negative impact on performance, introducing a slight delay in image loading.</p>
+                  <p>Additional performance degradation is attributed to external integrations such as Google Tag Manager (GTM), Bazaarvoice, and VWO. These third-party scripts introduce blocking behavior and DOM manipulation delays, negatively impacting key performance metrics including First Contentful Paint (FCP), Time to First Byte (TTFB), and Total Blocking Time (TBT).</p>
+                  <p>The most significant degradation is observed in the Largest Contentful Paint (LCP) metric, primarily caused by dynamically injected pop-up elements from external sources.</p>
+              </details>
+          </div>
       </div>
       <script>
       new Chart(document.getElementById('GLOBAL Website Performance_chart_0').getContext('2d'), {
@@ -448,6 +456,17 @@
     
       <div class="panel"><h3>CLS</h3><canvas id="PLP_chart_4"></canvas></div>
     </div>
+          <div class="panel" style="margin-top: 25px">
+              <details>
+                  <summary style="cursor: pointer; font-weight: bold">Read more about scoring</summary>
+                  <p>Performance degradation is attributed to external integrations. These third-party scripts introduce blocking behavior and DOM manipulation delays, negatively impacting key performance metrics including First Contentful Paint (FCP), Time to First Byte (TTFB), and Total Blocking Time (TBT).</p>
+                  <p>The big impact is caused by the following popup, affecting all the metrics.</p>
+                  <p>- is blocking the main thread</p>
+                  <p>- the size of the images in PLP is around 9kb (maximum). This image is ~21 times bigger (193kb): LCP from 678 ms to 8266 ms. To solve this optimized webp images should be used.</p>
+                  <img src="images/popup-plp.png" alt="Popup" style="width: 100%; max-width: 300px; margin-top: 10px;">
+                  <img src="images/popup-plp-size.png" alt="Popup" style="width: 100%; max-width: 900px; margin-top: 10px;">
+              </details>
+          </div>
       </div>
       <script>
       new Chart(document.getElementById('PLP_chart_0').getContext('2d'), {
@@ -604,6 +623,17 @@
     
       <div class="panel"><h3>CLS</h3><canvas id="PDP_chart_4"></canvas></div>
     </div>
+          <div class="panel" style="margin-top: 25px">
+              <details>
+                  <summary style="cursor: pointer; font-weight: bold">Read more about scoring</summary>
+                  <p>Performance degradation is attributed to external integrations. These third-party scripts introduce blocking behavior and DOM manipulation delays, negatively impacting key performance metrics including First Contentful Paint (FCP), Time to First Byte (TTFB), and Total Blocking Time (TBT).</p>
+                  <p>The big impact is caused by the external manipulations over the DOM and following popup, affecting all the metrics.</p>
+                  <p>- is blocking the main thread</p>
+                  <p>- the size of the images in PDP is around 19kb (maximum). This image is ~10 times bigger (193kb); optimized webp images should be used.</p>
+                  <p>- in this page the popup takes a lot of time to load causing LCP from 795 ms to 34857 ms.</p>
+                  <img src="images/popup-pdp.png" alt="Popup" style="width: 100%; max-width: 300px; margin-top: 10px;">
+              </details>
+          </div>
       </div>
       <script>
       new Chart(document.getElementById('PDP_chart_0').getContext('2d'), {
