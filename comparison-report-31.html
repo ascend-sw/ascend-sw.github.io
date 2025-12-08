@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sitespeed.io Multi-Release Report</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family:sans-serif; margin:0; background:#1f2937; color:#f9fafb; }
+    header { background:#111827; padding:1rem; text-align:center; border-bottom:1px solid #374151; }
+    a { color:#f9fafb; text-decoration:none; display:block; margin-bottom:1rem; }
+    .score-container { display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 26px; }
+    .score { background: darkgray; margin: 0; padding: 20px; font-size: 32px; font-weight: 600; border: 4px solid green; border-radius: 50%; }
+    .score-metrics { display: flex; gap: 36px; p { margin: 0; } }
+    .environment-config { display: flex; gap: 30px; justify-content: center; }
+    .environment-config-column { display: flex; justify-content: center; align-items: flex-end; }
+    .container { padding:2rem; display:grid; gap:2rem; max-width:1400px; margin:auto; }
+    .panel { background:#111827; border:1px solid #374151; border-radius:10px; padding:1rem; }
+    .panel-release { background:#111827; border:1px solid #374151; display: grid; grid-template-columns: 1fr 1fr; border-radius:10px; padding:1.5rem; box-shadow:0 2px 6px rgba(0,0,0,0.5); }
+    table { width:100%; border-collapse:collapse; margin-top:1rem; }
+    thead { background:#374151; }
+    th,td { padding:8px; text-align:center; }
+    td:first-child{ text-align:left; font-weight:500; }
+    tr:nth-child(even){ background:#1f2937; }
+    tr:nth-child(odd){ background:#111827; }
+    .delta-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(300px,1fr)); gap:1rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📊 Homerun - Release Performance Comparison</h1>
+      <div class="environment-config">
+          <div class="environment-config-column">
+            <span class="text-2xl">📱</span>
+            <span class="text-sm text-gray-400">Platform:&nbsp;</span>
+            <span class="font-semibold">Mobile (avg)</span>
+          </div>
+          <div class="environment-config-column">
+            <span class="text-2xl">🌐</span>
+            <span class="text-sm text-gray-400">Network:&nbsp;</span>
+            <span class="font-semibold">4G (average)</span>
+          </div>
+          <div class="environment-config-column">
+            <span class="text-2xl">📋</span>
+            <span class="text-sm text-gray-400">Executed Tests/Page:&nbsp;</span>
+            <span class="font-semibold">10</span>
+          </div>
+    </div>
+  </header>
+  <div class="container">
+    
+      <div class="panel">
+        <div class="score-container">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <p class="score" style="border-color:#ef4444; background:#fecaca; color:#ef4444;">31</p>
+                <div>
+                    <p style="color:#ef4444; font-weight:bold; margin:0;">
+                        -16 ↓
+                    </p>
+                </div>
+            </div>
+            <div class="score-metrics">
+                <p>🔴 0-49</p>
+                <p>🟠 50-89</p>
+                <p>🟢 90-100</p>
+            </div>
+        </div>
+        <h2><a href="" target="_blank">GLOBAL Website Performance</a></h2>
+        <table>
+          <thead>
+            <tr><th>Metric</th><th>release-28</th><th>release-29</th><th>release-30</th><th>release-31</th><th>Δ</th><th>Δ%</th></tr>
+          </thead>
+          <tbody>
+      <tr>
+        <td>TTFB</td>
+        <td>391 ms</td><td>364 ms</td><td>329 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ff996b;font-weight:bold;">351 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          22 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +6.69%
+        </td>
+      </tr>
+
+      <tr>
+        <td>FCP</td>
+        <td>1508 ms</td><td>516 ms</td><td>467 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ff996b;font-weight:bold;">717 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          250 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +53.53%
+        </td>
+      </tr>
+
+      <tr>
+        <td>LCP</td>
+        <td>4476 ms</td><td>3945 ms</td><td>946 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ef4444;font-weight:bold;">10908 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          9962 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +1053.07%
+        </td>
+      </tr>
+
+      <tr>
+        <td>TBT</td>
+        <td>4465 ms</td><td>2023 ms</td><td>2439 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ef4444;font-weight:bold;">3459 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          1020 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +41.82%
+        </td>
+      </tr>
+
+      <tr>
+        <td>CLS</td>
+        <td>0.179</td><td>0.339</td><td>0.202</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ff996b;font-weight:bold;">0.215</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          0.013 ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +6.49%
+        </td>
+      </tr></tbody>
+        </table>
+        <div class="delta-grid">
+      <div class="panel"><h3>TTFB</h3><canvas id="GLOBAL Website Performance_chart_0"></canvas></div>
+    
+      <div class="panel"><h3>FCP</h3><canvas id="GLOBAL Website Performance_chart_1"></canvas></div>
+    
+      <div class="panel"><h3>LCP</h3><canvas id="GLOBAL Website Performance_chart_2"></canvas></div>
+    
+      <div class="panel"><h3>TBT</h3><canvas id="GLOBAL Website Performance_chart_3"></canvas></div>
+    
+      <div class="panel"><h3>CLS</h3><canvas id="GLOBAL Website Performance_chart_4"></canvas></div>
+    </div>
+          <div class="panel" style="margin-top: 25px">
+              <details>
+                  <summary style="cursor: pointer; font-weight: bold">Read more about scoring</summary>
+                  <p>The new CDN used for image delivery has a small negative impact on performance, introducing a slight delay in image loading.</p>
+                  <p>Additional performance degradation is attributed to external integrations such as Google Tag Manager (GTM), Bazaarvoice, and VWO. These third-party scripts introduce blocking behavior and DOM manipulation delays, negatively impacting key performance metrics including First Contentful Paint (FCP), Time to First Byte (TTFB), and Total Blocking Time (TBT).</p>
+                  <p>The most significant degradation is observed in the Largest Contentful Paint (LCP) metric, primarily caused by dynamically injected pop-up elements from external sources.</p>
+              </details>
+          </div>
+      </div>
+      <script>
+      new Chart(document.getElementById('GLOBAL Website Performance_chart_0').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'TTFB',
+            data: [391,364,329,351],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('GLOBAL Website Performance_chart_1').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'FCP',
+            data: [1508,516,467,717],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('GLOBAL Website Performance_chart_2').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'LCP',
+            data: [4476,3945,946,10908],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('GLOBAL Website Performance_chart_3').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'TBT',
+            data: [4465,2023,2439,3459],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('GLOBAL Website Performance_chart_4').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'CLS',
+            data: [0.1789,0.3385,0.2019,0.215],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });</script>
+    
+
+      <div class="panel">
+        <div class="score-container">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <p class="score" style="border-color:#ef4444; background:#fecaca; color:#ef4444;">46</p>
+                <div>
+                    <p style="color:#ef4444; font-weight:bold; margin:0;">
+                        -2 ↓
+                    </p>
+                </div>
+            </div>
+            <div class="score-metrics">
+                <p>🔴 0-49</p>
+                <p>🟠 50-89</p>
+                <p>🟢 90-100</p>
+            </div>
+        </div>
+        <h2><a href="https://www.home-appliances.philips/pl/pl/" target="_blank">HOMEPAGE</a></h2>
+        <table>
+          <thead>
+            <tr><th>Metric</th><th>release-28</th><th>release-29</th><th>release-30</th><th>release-31</th><th>Δ</th><th>Δ%</th></tr>
+          </thead>
+          <tbody>
+      <tr>
+        <td>TTFB</td>
+        <td>444 ms</td><td>347 ms</td><td>327 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ff996b;font-weight:bold;">349 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          22 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +6.73%
+        </td>
+      </tr>
+
+      <tr>
+        <td>FCP</td>
+        <td>592 ms</td><td>488 ms</td><td>453 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ff996b;font-weight:bold;">687 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          234 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +51.66%
+        </td>
+      </tr>
+
+      <tr>
+        <td>LCP</td>
+        <td>1226 ms</td><td>982 ms</td><td>936 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ff996b;font-weight:bold;">900 ms</span></td>
+        <td style="color:#10b981;font-weight:bold;">
+          -36 ms ↓
+        </td>
+        <td style="color:#10b981;font-weight:bold;">
+          -3.85%
+        </td>
+      </tr>
+
+      <tr>
+        <td>TBT</td>
+        <td>4490 ms</td><td>1866 ms</td><td>2079 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ef4444;font-weight:bold;">2807 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          728 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +35.02%
+        </td>
+      </tr>
+
+      <tr>
+        <td>CLS</td>
+        <td>1.243</td><td>0.396</td><td>0.202</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ff996b;font-weight:bold;">0.202</span></td>
+        <td style="color:#9ca3af;font-weight:bold;">
+          0.000 →
+        </td>
+        <td style="color:#9ca3af;font-weight:bold;">
+          0.00%
+        </td>
+      </tr></tbody>
+        </table>
+        <div class="delta-grid">
+      <div class="panel"><h3>TTFB</h3><canvas id="HOMEPAGE_chart_0"></canvas></div>
+    
+      <div class="panel"><h3>FCP</h3><canvas id="HOMEPAGE_chart_1"></canvas></div>
+    
+      <div class="panel"><h3>LCP</h3><canvas id="HOMEPAGE_chart_2"></canvas></div>
+    
+      <div class="panel"><h3>TBT</h3><canvas id="HOMEPAGE_chart_3"></canvas></div>
+    
+      <div class="panel"><h3>CLS</h3><canvas id="HOMEPAGE_chart_4"></canvas></div>
+    </div>
+      </div>
+      <script>
+      new Chart(document.getElementById('HOMEPAGE_chart_0').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'TTFB',
+            data: [444,347,327,349],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('HOMEPAGE_chart_1').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'FCP',
+            data: [592,488,453,687],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('HOMEPAGE_chart_2').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'LCP',
+            data: [1226,982,936,900],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('HOMEPAGE_chart_3').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'TBT',
+            data: [4490,1866,2079,2807],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('HOMEPAGE_chart_4').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'CLS',
+            data: [1.243,0.3957,0.2019,0.2019],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });</script>
+    
+
+      <div class="panel">
+        <div class="score-container">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <p class="score" style="border-color:#ef4444; background:#fecaca; color:#ef4444;">36</p>
+                <div>
+                    <p style="color:#ef4444; font-weight:bold; margin:0;">
+                        -25 ↓
+                    </p>
+                </div>
+            </div>
+            <div class="score-metrics">
+                <p>🔴 0-49</p>
+                <p>🟠 50-89</p>
+                <p>🟢 90-100</p>
+            </div>
+        </div>
+        <h2><a href="https://www.home-appliances.philips/pl/pl/home-life-products/coffee/philips-full-automatic-espresso/super-automatic-espresso-machines/c/SUPER_AUTOMATIC_ESPRESSO_SU" target="_blank">PLP</a></h2>
+        <table>
+          <thead>
+            <tr><th>Metric</th><th>release-28</th><th>release-29</th><th>release-30</th><th>release-31</th><th>Δ</th><th>Δ%</th></tr>
+          </thead>
+          <tbody>
+      <tr>
+        <td>TTFB</td>
+        <td>448 ms</td><td>374 ms</td><td>331 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ff996b;font-weight:bold;">356 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          25 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +7.55%
+        </td>
+      </tr>
+
+      <tr>
+        <td>FCP</td>
+        <td>615 ms</td><td>523 ms</td><td>478 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ff996b;font-weight:bold;">698 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          220 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +46.03%
+        </td>
+      </tr>
+
+      <tr>
+        <td>LCP</td>
+        <td>972 ms</td><td>738 ms</td><td>678 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ef4444;font-weight:bold;">8266 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          7588 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +1119.17%
+        </td>
+      </tr>
+
+      <tr>
+        <td>TBT</td>
+        <td>4000 ms</td><td>2035 ms</td><td>2370 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ef4444;font-weight:bold;">3398 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          1028 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +43.38%
+        </td>
+      </tr>
+
+      <tr>
+        <td>CLS</td>
+        <td>0.048</td><td>0.032</td><td>0.022</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ff996b;font-weight:bold;">0.122</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          0.100 ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +447.53%
+        </td>
+      </tr></tbody>
+        </table>
+        <div class="delta-grid">
+      <div class="panel"><h3>TTFB</h3><canvas id="PLP_chart_0"></canvas></div>
+    
+      <div class="panel"><h3>FCP</h3><canvas id="PLP_chart_1"></canvas></div>
+    
+      <div class="panel"><h3>LCP</h3><canvas id="PLP_chart_2"></canvas></div>
+    
+      <div class="panel"><h3>TBT</h3><canvas id="PLP_chart_3"></canvas></div>
+    
+      <div class="panel"><h3>CLS</h3><canvas id="PLP_chart_4"></canvas></div>
+    </div>
+          <div class="panel" style="margin-top: 25px">
+              <details>
+                  <summary style="cursor: pointer; font-weight: bold">Read more about scoring</summary>
+                  <p>Performance degradation is attributed to external integrations. These third-party scripts introduce blocking behavior and DOM manipulation delays, negatively impacting key performance metrics including First Contentful Paint (FCP), Time to First Byte (TTFB), and Total Blocking Time (TBT).</p>
+                  <p>The big impact is caused by the following popup, affecting all the metrics.</p>
+                  <p>- is blocking the main thread</p>
+                  <p>- the size of the images in PLP is around 9kb (maximum). This image is ~21 times bigger (193kb): LCP from 678 ms to 8266 ms. To solve this optimized webp images should be used.</p>
+                  <img src="images/popup-plp.png" alt="Popup" style="width: 100%; max-width: 300px; margin-top: 10px;">
+                  <img src="images/popup-plp-size.png" alt="Popup" style="width: 100%; max-width: 900px; margin-top: 10px;">
+              </details>
+          </div>
+      </div>
+      <script>
+      new Chart(document.getElementById('PLP_chart_0').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'TTFB',
+            data: [448,374,331,356],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('PLP_chart_1').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'FCP',
+            data: [615,523,478,698],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('PLP_chart_2').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'LCP',
+            data: [972,738,678,8266],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('PLP_chart_3').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'TBT',
+            data: [4000,2035,2370,3398],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('PLP_chart_4').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'CLS',
+            data: [0.0479,0.0316,0.0223,0.1221],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });</script>
+    
+
+      <div class="panel">
+        <div class="score-container">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <p class="score" style="border-color:#ef4444; background:#fecaca; color:#ef4444;">30</p>
+                <div>
+                    <p style="color:#ef4444; font-weight:bold; margin:0;">
+                        -30 ↓
+                    </p>
+                </div>
+            </div>
+            <div class="score-metrics">
+                <p>🔴 0-49</p>
+                <p>🟠 50-89</p>
+                <p>🟢 90-100</p>
+            </div>
+        </div>
+        <h2><a href="https://www.home-appliances.philips/pl/pl/p/EP5546_70" target="_blank">PDP</a></h2>
+        <table>
+          <thead>
+            <tr><th>Metric</th><th>release-28</th><th>release-29</th><th>release-30</th><th>release-31</th><th>Δ</th><th>Δ%</th></tr>
+          </thead>
+          <tbody>
+      <tr>
+        <td>TTFB</td>
+        <td>410 ms</td><td>361 ms</td><td>325 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ff996b;font-weight:bold;">342 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          17 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +5.23%
+        </td>
+      </tr>
+
+      <tr>
+        <td>FCP</td>
+        <td>616 ms</td><td>494 ms</td><td>436 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ff996b;font-weight:bold;">710 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          274 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +62.84%
+        </td>
+      </tr>
+
+      <tr>
+        <td>LCP</td>
+        <td>872 ms</td><td>703 ms</td><td>795 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ef4444;font-weight:bold;">34857 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          34062 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +4284.53%
+        </td>
+      </tr>
+
+      <tr>
+        <td>TBT</td>
+        <td>5995 ms</td><td>2928 ms</td><td>3252 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ef4444;font-weight:bold;">4734 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          1482 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +45.57%
+        </td>
+      </tr>
+
+      <tr>
+        <td>CLS</td>
+        <td>0.120</td><td>0.102</td><td>0.027</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ff996b;font-weight:bold;">0.144</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          0.117 ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +428.94%
+        </td>
+      </tr></tbody>
+        </table>
+        <div class="delta-grid">
+      <div class="panel"><h3>TTFB</h3><canvas id="PDP_chart_0"></canvas></div>
+    
+      <div class="panel"><h3>FCP</h3><canvas id="PDP_chart_1"></canvas></div>
+    
+      <div class="panel"><h3>LCP</h3><canvas id="PDP_chart_2"></canvas></div>
+    
+      <div class="panel"><h3>TBT</h3><canvas id="PDP_chart_3"></canvas></div>
+    
+      <div class="panel"><h3>CLS</h3><canvas id="PDP_chart_4"></canvas></div>
+    </div>
+          <div class="panel" style="margin-top: 25px">
+              <details>
+                  <summary style="cursor: pointer; font-weight: bold">Read more about scoring</summary>
+                  <p>Performance degradation is attributed to external integrations. These third-party scripts introduce blocking behavior and DOM manipulation delays, negatively impacting key performance metrics including First Contentful Paint (FCP), Time to First Byte (TTFB), and Total Blocking Time (TBT).</p>
+                  <p>The big impact is caused by the external manipulations over the DOM and following popup, affecting all the metrics.</p>
+                  <p>- is blocking the main thread</p>
+                  <p>- the size of the images in PDP is around 19kb (maximum). This image is ~10 times bigger (193kb); optimized webp images should be used.</p>
+                  <p>- in this page the popup takes a lot of time to load causing LCP from 795 ms to 34857 ms.</p>
+                  <img src="images/popup-pdp.png" alt="Popup" style="width: 100%; max-width: 300px; margin-top: 10px;">
+              </details>
+          </div>
+      </div>
+      <script>
+      new Chart(document.getElementById('PDP_chart_0').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'TTFB',
+            data: [410,361,325,342],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('PDP_chart_1').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'FCP',
+            data: [616,494,436,710],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('PDP_chart_2').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'LCP',
+            data: [872,703,795,34857],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('PDP_chart_3').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'TBT',
+            data: [5995,2928,3252,4734],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('PDP_chart_4').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'CLS',
+            data: [0.1201,0.1022,0.0273,0.1444],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });</script>
+    
+
+      <div class="panel">
+        <div class="score-container">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <p class="score" style="border-color:#ef4444; background:#fecaca; color:#ef4444;">28</p>
+                <div>
+                    <p style="color:#ef4444; font-weight:bold; margin:0;">
+                        -3 ↓
+                    </p>
+                </div>
+            </div>
+            <div class="score-metrics">
+                <p>🔴 0-49</p>
+                <p>🟠 50-89</p>
+                <p>🟢 90-100</p>
+            </div>
+        </div>
+        <h2><a href="https://www.home-appliances.philips/pl/pl/u/coffee-machines" target="_blank">Category Page</a></h2>
+        <table>
+          <thead>
+            <tr><th>Metric</th><th>release-28</th><th>release-29</th><th>release-30</th><th>release-31</th><th>Δ</th><th>Δ%</th></tr>
+          </thead>
+          <tbody>
+      <tr>
+        <td>TTFB</td>
+        <td>348 ms</td><td>355 ms</td><td>338 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ff996b;font-weight:bold;">360 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          22 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +6.51%
+        </td>
+      </tr>
+
+      <tr>
+        <td>FCP</td>
+        <td>554 ms</td><td>513 ms</td><td>469 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ff996b;font-weight:bold;">724 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          255 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +54.37%
+        </td>
+      </tr>
+
+      <tr>
+        <td>LCP</td>
+        <td>9305 ms</td><td>9053 ms</td><td>9100 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ef4444;font-weight:bold;">10993 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          1893 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +20.80%
+        </td>
+      </tr>
+
+      <tr>
+        <td>TBT</td>
+        <td>2425 ms</td><td>1973 ms</td><td>2380 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ef4444;font-weight:bold;">3283 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          903 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +37.94%
+        </td>
+      </tr>
+
+      <tr>
+        <td>CLS</td>
+        <td>1.360</td><td>1.260</td><td>0.976</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ef4444;font-weight:bold;">1.250</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          0.274 ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +28.07%
+        </td>
+      </tr></tbody>
+        </table>
+        <div class="delta-grid">
+      <div class="panel"><h3>TTFB</h3><canvas id="Category Page_chart_0"></canvas></div>
+    
+      <div class="panel"><h3>FCP</h3><canvas id="Category Page_chart_1"></canvas></div>
+    
+      <div class="panel"><h3>LCP</h3><canvas id="Category Page_chart_2"></canvas></div>
+    
+      <div class="panel"><h3>TBT</h3><canvas id="Category Page_chart_3"></canvas></div>
+    
+      <div class="panel"><h3>CLS</h3><canvas id="Category Page_chart_4"></canvas></div>
+    </div>
+      </div>
+      <script>
+      new Chart(document.getElementById('Category Page_chart_0').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'TTFB',
+            data: [348,355,338,360],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('Category Page_chart_1').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'FCP',
+            data: [554,513,469,724],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('Category Page_chart_2').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'LCP',
+            data: [9305,9053,9100,10993],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('Category Page_chart_3').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'TBT',
+            data: [2425,1973,2380,3283],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('Category Page_chart_4').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'CLS',
+            data: [1.36,1.26,0.976,1.25],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });</script>
+    
+
+      <div class="panel">
+        <div class="score-container">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <p class="score" style="border-color:#ef4444; background:#fecaca; color:#ef4444;">27</p>
+                <div>
+                    <p style="color:#ef4444; font-weight:bold; margin:0;">
+                        -4 ↓
+                    </p>
+                </div>
+            </div>
+            <div class="score-metrics">
+                <p>🔴 0-49</p>
+                <p>🟠 50-89</p>
+                <p>🟢 90-100</p>
+            </div>
+        </div>
+        <h2><a href="https://www.home-appliances.philips/pl/pl/u/coffee-machines/philips-full-automatic-espresso" target="_blank">Subcategory Page</a></h2>
+        <table>
+          <thead>
+            <tr><th>Metric</th><th>release-28</th><th>release-29</th><th>release-30</th><th>release-31</th><th>Δ</th><th>Δ%</th></tr>
+          </thead>
+          <tbody>
+      <tr>
+        <td>TTFB</td>
+        <td>341 ms</td><td>371 ms</td><td>327 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ff996b;font-weight:bold;">357 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          30 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +9.17%
+        </td>
+      </tr>
+
+      <tr>
+        <td>FCP</td>
+        <td>581 ms</td><td>533 ms</td><td>467 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ff996b;font-weight:bold;">795 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          328 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +70.24%
+        </td>
+      </tr>
+
+      <tr>
+        <td>LCP</td>
+        <td>9422 ms</td><td>9167 ms</td><td>9079 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ef4444;font-weight:bold;">13507 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          4428 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +48.77%
+        </td>
+      </tr>
+
+      <tr>
+        <td>TBT</td>
+        <td>4379 ms</td><td>1992 ms</td><td>2544 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ef4444;font-weight:bold;">2731 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          187 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +7.35%
+        </td>
+      </tr>
+
+      <tr>
+        <td>CLS</td>
+        <td>0.911</td><td>0.976</td><td>1.040</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ef4444;font-weight:bold;">1.020</span></td>
+        <td style="color:#10b981;font-weight:bold;">
+          -0.020 ↓
+        </td>
+        <td style="color:#10b981;font-weight:bold;">
+          -1.92%
+        </td>
+      </tr></tbody>
+        </table>
+        <div class="delta-grid">
+      <div class="panel"><h3>TTFB</h3><canvas id="Subcategory Page_chart_0"></canvas></div>
+    
+      <div class="panel"><h3>FCP</h3><canvas id="Subcategory Page_chart_1"></canvas></div>
+    
+      <div class="panel"><h3>LCP</h3><canvas id="Subcategory Page_chart_2"></canvas></div>
+    
+      <div class="panel"><h3>TBT</h3><canvas id="Subcategory Page_chart_3"></canvas></div>
+    
+      <div class="panel"><h3>CLS</h3><canvas id="Subcategory Page_chart_4"></canvas></div>
+    </div>
+      </div>
+      <script>
+      new Chart(document.getElementById('Subcategory Page_chart_0').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'TTFB',
+            data: [341,371,327,357],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('Subcategory Page_chart_1').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'FCP',
+            data: [581,533,467,795],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('Subcategory Page_chart_2').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'LCP',
+            data: [9422,9167,9079,13507],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('Subcategory Page_chart_3').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'TBT',
+            data: [4379,1992,2544,2731],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('Subcategory Page_chart_4').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'CLS',
+            data: [0.9108,0.976,1.04,1.02],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });</script>
+    
+
+      <div class="panel">
+        <div class="score-container">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <p class="score" style="border-color:#ef4444; background:#fecaca; color:#ef4444;">37</p>
+                <div>
+                    <p style="color:#ef4444; font-weight:bold; margin:0;">
+                        -24 ↓
+                    </p>
+                </div>
+            </div>
+            <div class="score-metrics">
+                <p>🔴 0-49</p>
+                <p>🟠 50-89</p>
+                <p>🟢 90-100</p>
+            </div>
+        </div>
+        <h2><a href="https://www.home-appliances.philips/pl/pl/search/coffee%20machine" target="_blank">Search Results Page</a></h2>
+        <table>
+          <thead>
+            <tr><th>Metric</th><th>release-28</th><th>release-29</th><th>release-30</th><th>release-31</th><th>Δ</th><th>Δ%</th></tr>
+          </thead>
+          <tbody>
+      <tr>
+        <td>TTFB</td>
+        <td>398 ms</td><td>369 ms</td><td>327 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ff996b;font-weight:bold;">346 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          19 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +5.81%
+        </td>
+      </tr>
+
+      <tr>
+        <td>FCP</td>
+        <td>615 ms</td><td>513 ms</td><td>467 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ff996b;font-weight:bold;">700 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          233 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +49.89%
+        </td>
+      </tr>
+
+      <tr>
+        <td>LCP</td>
+        <td>6310 ms</td><td>3945 ms</td><td>709 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ef4444;font-weight:bold;">8802 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          8093 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +1141.47%
+        </td>
+      </tr>
+
+      <tr>
+        <td>TBT</td>
+        <td>4987 ms</td><td>1960 ms</td><td>2156 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ef4444;font-weight:bold;">3619 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          1463 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +67.86%
+        </td>
+      </tr>
+
+      <tr>
+        <td>CLS</td>
+        <td>0.035</td><td>0.032</td><td>0.023</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#10b981;font-weight:bold;">0.100</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          0.077 ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +329.18%
+        </td>
+      </tr></tbody>
+        </table>
+        <div class="delta-grid">
+      <div class="panel"><h3>TTFB</h3><canvas id="Search Results Page_chart_0"></canvas></div>
+    
+      <div class="panel"><h3>FCP</h3><canvas id="Search Results Page_chart_1"></canvas></div>
+    
+      <div class="panel"><h3>LCP</h3><canvas id="Search Results Page_chart_2"></canvas></div>
+    
+      <div class="panel"><h3>TBT</h3><canvas id="Search Results Page_chart_3"></canvas></div>
+    
+      <div class="panel"><h3>CLS</h3><canvas id="Search Results Page_chart_4"></canvas></div>
+    </div>
+      </div>
+      <script>
+      new Chart(document.getElementById('Search Results Page_chart_0').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'TTFB',
+            data: [398,369,327,346],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('Search Results Page_chart_1').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'FCP',
+            data: [615,513,467,700],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('Search Results Page_chart_2').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'LCP',
+            data: [6310,3945,709,8802],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('Search Results Page_chart_3').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'TBT',
+            data: [4987,1960,2156,3619],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('Search Results Page_chart_4').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'CLS',
+            data: [0.0346,0.0318,0.0233,0.1],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });</script>
+    
+
+      <div class="panel">
+        <div class="score-container">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <p class="score" style="border-color:#ef4444; background:#fecaca; color:#ef4444;">27</p>
+                <div>
+                    <p style="color:#ef4444; font-weight:bold; margin:0;">
+                        -3 ↓
+                    </p>
+                </div>
+            </div>
+            <div class="score-metrics">
+                <p>🔴 0-49</p>
+                <p>🟠 50-89</p>
+                <p>🟢 90-100</p>
+            </div>
+        </div>
+        <h2><a href="https://www.home-appliances.philips/pl/pl/u/coffee-machines/philips-full-automatic-espresso/lattego" target="_blank">Pre Purchase Page</a></h2>
+        <table>
+          <thead>
+            <tr><th>Metric</th><th>release-28</th><th>release-29</th><th>release-30</th><th>release-31</th><th>Δ</th><th>Δ%</th></tr>
+          </thead>
+          <tbody>
+      <tr>
+        <td>TTFB</td>
+        <td>390 ms</td><td>356 ms</td><td>330 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ff996b;font-weight:bold;">367 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          37 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +11.21%
+        </td>
+      </tr>
+
+      <tr>
+        <td>FCP</td>
+        <td>697 ms</td><td>512 ms</td><td>473 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ff996b;font-weight:bold;">852 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          379 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +80.13%
+        </td>
+      </tr>
+
+      <tr>
+        <td>LCP</td>
+        <td>9710 ms</td><td>9367 ms</td><td>9310 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ef4444;font-weight:bold;">13300 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          3990 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +42.86%
+        </td>
+      </tr>
+
+      <tr>
+        <td>TBT</td>
+        <td>3474 ms</td><td>2545 ms</td><td>2940 ms</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ef4444;font-weight:bold;">4049 ms</span></td>
+        <td style="color:#ef4444;font-weight:bold;">
+          1109 ms ↑
+        </td>
+        <td style="color:#ef4444;font-weight:bold;">
+          +37.72%
+        </td>
+      </tr>
+
+      <tr>
+        <td>CLS</td>
+        <td>0.353</td><td>0.863</td><td>0.705</td><td><span style="display:inline-block;padding:4px 8px;border-radius:6px;background:;color:#ef4444;font-weight:bold;">0.506</span></td>
+        <td style="color:#10b981;font-weight:bold;">
+          -0.199 ↓
+        </td>
+        <td style="color:#10b981;font-weight:bold;">
+          -28.21%
+        </td>
+      </tr></tbody>
+        </table>
+        <div class="delta-grid">
+      <div class="panel"><h3>TTFB</h3><canvas id="Pre Purchase Page_chart_0"></canvas></div>
+    
+      <div class="panel"><h3>FCP</h3><canvas id="Pre Purchase Page_chart_1"></canvas></div>
+    
+      <div class="panel"><h3>LCP</h3><canvas id="Pre Purchase Page_chart_2"></canvas></div>
+    
+      <div class="panel"><h3>TBT</h3><canvas id="Pre Purchase Page_chart_3"></canvas></div>
+    
+      <div class="panel"><h3>CLS</h3><canvas id="Pre Purchase Page_chart_4"></canvas></div>
+    </div>
+      </div>
+      <script>
+      new Chart(document.getElementById('Pre Purchase Page_chart_0').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'TTFB',
+            data: [390,356,330,367],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('Pre Purchase Page_chart_1').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'FCP',
+            data: [697,512,473,852],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('Pre Purchase Page_chart_2').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'LCP',
+            data: [9710,9367,9310,13300],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('Pre Purchase Page_chart_3').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'TBT',
+            data: [3474,2545,2940,4049],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });
+
+      new Chart(document.getElementById('Pre Purchase Page_chart_4').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ["release-28","release-29","release-30","release-31"],
+          datasets: [{
+            label: 'CLS',
+            data: [0.353,0.8632,0.7047,0.5059],
+            backgroundColor: '#3b82f6'
+          }]
+        },
+        options: { responsive: true, plugins:{ legend:{ display:false } } }
+      });</script>
+    
+    <div class="panel-release">
+        <div>
+            <h2>Homerun - release reports</h2>
+            <div>
+                <a href="https://ascend-sw.github.io/homerun/release-31/" target="_blank"><b>release-31</b> (15.10.2025)</a>
+                <a href="https://ascend-sw.github.io/homerun/release-30/" target="_blank"><b>release-30</b> (01.10.2025)</a>
+                <a href="https://ascend-sw.github.io/homerun/release-29/" target="_blank"><b>release-29</b> (16.09.2025)</a>
+                <a href="https://ascend-sw.github.io/homerun/release-28/" target="_blank"><b>release-28</b> (02.09.2025)</a>
+            </div>
+        </div>
+        <div>
+            <h2>Baristina - release reports</h2>
+            <div>
+                <a href="https://ascend-sw.github.io/baristina/release-31/" target="_blank"><b>release-31</b> (15.10.2025)</a>
+                <a href="https://ascend-sw.github.io/baristina/release-30/" target="_blank"><b>release-30</b> (01.10.2025)</a>
+                <a href="https://ascend-sw.github.io/baristina/release-29/" target="_blank"><b>release-29</b> (16.09.2025)</a>
+                <a href="https://ascend-sw.github.io/baristina/release-28/" target="_blank"><b>release-28</b> (02.09.2025)</a>
+            </div>
+        </div>
+    </div>
+    <div class="panel">
+         <h2>Metric Details</h2>
+         <p><b>FCP (First Contentful Paint): </b>measures the time from navigation to the time when the browser renders the first bit of content from the DOM</p>
+         <p><b>TBT (Total Blocking Time): </b>the blocking time of a given long task is its duration in excess of 50 ms. And the total blocking time for a page is the sum of the blocking time for each long task that happens after first contentful paint.</p>
+         <p><b>LCP (Largest Contentful Paint): </b>this metric reports the render time of the largest content element visible in the viewport.</p>
+         <p><b>CLS (Cumulative Layout Shift): </b>measures the sum total of all individual layout shift scores for unexpected layout shift that occur. The metric is measuring visual stability by quantify how often users experience unexpected layout shifts. It is one of Google Web Vitals.</p>
+         <p><b>TTFB (Time To First Byte): </b>The time it takes for the network and the server to generate and start sending the HTML. Collected using the Navigation Timing API with the definition: responseStart - navigationStart</p>
+     </div>
+  </div>
+</body>
+</html>

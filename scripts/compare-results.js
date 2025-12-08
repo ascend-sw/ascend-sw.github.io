@@ -441,6 +441,7 @@ function generateHtml(allResults, releases, outputFile) {
         <div>
             <h2>Homerun - release reports</h2>
             <div>
+                <a href="https://ascend-sw.github.io/homerun/release-32/" target="_blank"><b>release-32</b> (04.11.2025)</a>
                 <a href="https://ascend-sw.github.io/homerun/release-31/" target="_blank"><b>release-31</b> (15.10.2025)</a>
                 <a href="https://ascend-sw.github.io/homerun/release-30/" target="_blank"><b>release-30</b> (01.10.2025)</a>
                 <a href="https://ascend-sw.github.io/homerun/release-29/" target="_blank"><b>release-29</b> (16.09.2025)</a>
@@ -450,6 +451,7 @@ function generateHtml(allResults, releases, outputFile) {
         <div>
             <h2>Baristina - release reports</h2>
             <div>
+                <a href="https://ascend-sw.github.io/baristina/release-32/" target="_blank"><b>release-32</b> (04.11.2025)</a>
                 <a href="https://ascend-sw.github.io/baristina/release-31/" target="_blank"><b>release-31</b> (15.10.2025)</a>
                 <a href="https://ascend-sw.github.io/baristina/release-30/" target="_blank"><b>release-30</b> (01.10.2025)</a>
                 <a href="https://ascend-sw.github.io/baristina/release-29/" target="_blank"><b>release-29</b> (16.09.2025)</a>
