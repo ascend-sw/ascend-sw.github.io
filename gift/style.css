@@ -42,8 +42,8 @@ body {
 
 /* Wheel Icon */
 .wheel-icon {
-    width: 146px;
-    height: 146px;
+    width: 144px;
+    height: 144px;
     border-radius: 50%;
     background: conic-gradient(#FF6384 0deg 72deg,
             #36A2EB 72deg 144deg,
