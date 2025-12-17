@@ -42,10 +42,48 @@ const CENTER_DOT_COLOR = "rgb(44, 44, 44)";
 const OUTSIDE_RADIUS = 230;
 const WINNER_COLOR = "crimson";
 
-let names = [
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const participantsRef = db.collection('participants');
+
+let names = [];
+const initialNames = [
     "Dan", "Wilco", "Andreea", "Veronika",
     "Vivek", "Claudiu", "Stefania", "Alex", "Sener"
 ];
+
+// Seed data if empty
+participantsRef.get().then(snap => {
+    if (snap.empty) {
+        initialNames.forEach(name => {
+            participantsRef.add({ name, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+        });
+    }
+});
+
+let isFirstLoad = true;
+
+// Listen for updates
+participantsRef.orderBy('createdAt').onSnapshot(snapshot => {
+    names = snapshot.docs.map(doc => ({
+        id: doc.id,
+        name: doc.data().name
+    }));
+
+    // If it's Thursday (day 4), remove Stefania
+    if (new Date().getDay() === 4) {
+        names = names.filter(n => n.name !== "Stefania");
+    }
+
+    if (isFirstLoad) {
+        shuffleArray(names);
+        isFirstLoad = false;
+    }
+
+    updateWheel();
+    updateStats();
+});
 
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -54,14 +92,8 @@ function shuffleArray(array) {
     }
 }
 
-shuffleArray(names);
 shuffleArray(SEGMENT_COLORS);
 shuffleArray(SEGMENT_COLORS2);
-
-// If it's Thursday (day 4), remove Stefania
-if (new Date().getDay() === 4) {
-    names = names.filter(name => name !== "Stefania");
-}
 
 function updateStats() {
     stats.innerHTML = `${names.length} participants, ${Math.trunc((1 / names.length) * 100)}% chance to win`;
@@ -129,7 +161,7 @@ function drawRouletteWheel() {
             ctx.translate(250 + Math.cos(angle + arc / 2) * (outsideRadius - 20),
                 250 + Math.sin(angle + arc / 2) * (outsideRadius - 20));
             ctx.rotate(angle + arc / 2 + Math.PI);
-            const text = names[i];
+            const text = names[i].name;
             ctx.fillText(text, 0, 8);
             ctx.restore();
 
@@ -227,7 +259,7 @@ function stopRotateWheel() {
 
     ctx.save();
     ctx.font = 'bold 30px Helvetica, Arial';
-    const text = names[index];
+    const text = names[index].name;
 
     // Highlight the winner on the wheel? Maybe just show text below.
     resultDiv.textContent = `Winner: ${text}`;
@@ -304,17 +336,18 @@ function updateWheel() {
 function addName() {
     const name = nameInput.value.trim();
     if (name) {
-        names.push(name);
+        participantsRef.add({
+            name: name,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
         nameInput.value = '';
-        updateWheel();
     }
-    updateStats();
 }
 
 function removeName(index) {
-    names.splice(index, 1);
-    updateWheel();
-    updateStats();
+    if (names[index] && names[index].id) {
+        participantsRef.doc(names[index].id).delete();
+    }
 }
 
 
