@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wheel of Fortune</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1 id="result" class="result hidden"></h1>
+
+        <div class="wheel-container">
+            <canvas id="wheel" width="500" height="500"></canvas>
+            <div class="arrow-container">
+                <div class="arrow"></div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="input-group">
+                <input type="text" id="name-input" placeholder="Enter a name">
+                <button id="add-btn">Add</button>
+            </div>
+
+        </div>
+
+        <button id="spin-btn">SPIN</button>
+
+    </div>
+    <div id="stats" class="stats"></div>
+    <div class="bottom-controls">
+        <button id="sound-btn" class="icon-btn" title="Toggle Sound">🔊</button>
+        <button id="palette-btn" class="icon-btn" title="Toggle Colors">🎨</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
