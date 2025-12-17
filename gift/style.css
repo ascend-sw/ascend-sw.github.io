@@ -42,8 +42,8 @@ body {
 
 /* Wheel Icon */
 .wheel-icon {
-    width: 180px;
-    height: 180px;
+    width: 146px;
+    height: 146px;
     border-radius: 50%;
     background: conic-gradient(#FF6384 0deg 72deg,
             #36A2EB 72deg 144deg,
@@ -71,8 +71,8 @@ body {
 
 /* Poker Icon */
 .poker-icon {
-    width: 135px;
-    height: 180px;
+    width: 105px;
+    height: 150px;
     background-color: white;
     border: 6px solid #333;
     border-radius: 18px;
