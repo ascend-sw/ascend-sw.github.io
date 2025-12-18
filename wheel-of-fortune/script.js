@@ -39,7 +39,11 @@ const REMOVE_BUTTON_ICON_COLOR = "black";
 const CENTER_CIRCLE_COLOR = "white";
 const CENTER_DOT_COLOR = "rgb(44, 44, 44)";
 const OUTSIDE_RADIUS = 230;
-const WINNER_COLOR = "crimson";
+const WINNER_COLORS = [
+    "#4D9EFF", // Blue
+    "#FFD940"  // Yellow
+];
+let currentWinnerColor = WINNER_COLORS[0];
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -198,9 +202,9 @@ function drawRouletteWheel() {
 
             if (i === winningIndex) {
                 ctx.save();
-                ctx.filter = "brightness(0.8)";
+                ctx.filter = "brightness(1)";
                 // ctx.fill();
-                ctx.fillStyle = WINNER_COLOR;
+                ctx.fillStyle = currentWinnerColor;
                 ctx.fill();
                 ctx.restore();
             } else {
@@ -310,6 +314,7 @@ function stopRotateWheel() {
     const arcd = arc * 180 / Math.PI;
     const index = Math.floor((360 - degrees % 360) % 360 / arcd);
     winningIndex = index;
+    currentWinnerColor = WINNER_COLORS[Math.floor(Math.random() * WINNER_COLORS.length)];
     drawRouletteWheel();
 
     ctx.save();
