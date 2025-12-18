@@ -130,11 +130,6 @@ function initApp(teamId) {
             name: doc.data().name
         }));
 
-        // If it's Thursday (day 4), remove Stefania
-        if (new Date().getDay() === 4) {
-            names = names.filter(n => n.name !== "Stefania");
-        }
-
         if (isFirstLoad) {
             shuffleArray(names);
             isFirstLoad = false;
