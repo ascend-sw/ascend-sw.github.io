@@ -5,39 +5,130 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: white;
+    background-color: #f3f4f6;
+    /* slate-100 */
     text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.landing-container h1 {
+    font-size: 3rem;
+    color: #1f2937;
+    /* gray-800 */
+    margin-bottom: 1rem;
+    font-weight: 800;
+    /* font-extrabold */
+    letter-spacing: -0.025em;
+    /* tracking-tight */
 }
 
 .landing-options {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 1.5rem;
+    /* gap-6 */
     align-items: center;
-    margin-top: 30px;
+    background: white;
+    padding: 2.5rem;
+    /* p-10 */
+    border-radius: 1rem;
+    /* rounded-2xl */
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    /* shadow-xl */
+    width: 100%;
+    max-width: 28rem;
+    /* max-w-md */
+    border: 1px solid #e5e7eb;
+    /* border-gray-200 */
 }
 
 .divider {
-    font-weight: bold;
-    color: #aaa;
-    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    color: #6b7280;
+    /* gray-500 */
+    font-size: 0.875rem;
+    /* text-sm */
+    font-weight: 500;
+    margin: 0.5rem 0;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #e5e7eb;
+    /* border-gray-200 */
+}
+
+.divider::before {
+    margin-right: 0.5rem;
+}
+
+.divider::after {
+    margin-left: 0.5rem;
 }
 
 .join-team {
     display: flex;
-    gap: 10px;
+    flex-direction: column;
+    gap: 0.75rem;
+    /* gap-3 */
+    width: 100%;
 }
 
 .join-team input {
-    padding: 10px 15px;
-    border: 2px solid #ddd;
-    border-radius: 25px;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db;
+    /* border-gray-300 */
+    border-radius: 0.5rem;
+    /* rounded-lg */
     font-size: 1rem;
     outline: none;
+    width: 100%;
+    box-sizing: border-box;
+    /* Ensure padding doesn't affect width */
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    /* shadow-sm */
 }
 
 .join-team input:focus {
-    border-color: var(--primary-color);
+    border-color: #3b82f6;
+    /* blue-500 */
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    /* ring-blue-500/20 */
+}
+
+.primary-btn,
+#landing-join-btn {
+    background-color: #3b82f6;
+    /* blue-500 */
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    /* rounded-lg */
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    font-weight: 600;
+    /* font-semibold */
+    width: 100%;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    /* shadow */
+}
+
+.primary-btn:hover,
+#landing-join-btn:hover {
+    background-color: #2563eb;
+    /* blue-600 */
+}
+
+.primary-btn:active,
+#landing-join-btn:active {
+    transform: translateY(0);
 }
 
 .hidden {
