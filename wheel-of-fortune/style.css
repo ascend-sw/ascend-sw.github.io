@@ -289,4 +289,70 @@ box-shadow 0.2s;
 .icon-btn.palette-alt {
     opacity: 0.6;
     background-color: #f0f0f0;
+}/* Add Name Component in Bottom Controls */
+.add-name-container {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid #eee;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 44px;
+    overflow: hidden;
+    max-width: 50px;
+    /* Collapsed state (only button visible) */
+    box-sizing: border-box;
+}
+
+.add-name-container:hover,
+.add-name-container:focus-within {
+    max-width: 300px;
+    /* Expanded state */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.add-name-container #name-input {
+    border: none;
+    background: transparent;
+    height: 100%;
+    padding: 0;
+    width: 0;
+    opacity: 0;
+    transition: all 0.3s ease;
+    outline: none;
+    box-shadow: none;
+    font-size: 1rem;
+    color: var(--secondary-color);
+    margin: 0;
+    border-radius: 0;
+}
+
+.add-name-container:hover #name-input,
+.add-name-container:focus-within #name-input {
+    width: 180px;
+    padding: 0 0 0 15px;
+    opacity: 1;
+}
+
+.add-name-container #add-btn {
+    background: transparent;
+    color: var(--secondary-color);
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    width: 50px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 0;
+    min-width: 50px;
+}
+
+.add-name-container #add-btn:hover {
+    background: transparent;
+    transform: none;
+    color: var(--primary-color);
 }
