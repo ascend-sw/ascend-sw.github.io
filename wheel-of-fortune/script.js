@@ -11,17 +11,16 @@ const soundBtn = document.getElementById('sound-btn');
 const paletteBtn = document.getElementById('palette-btn');
 
 const SEGMENT_COLORS = [
-    "#9CAF88", // Sage Green
-    "#FFD700", // Butter Yellow
-    "#4B0082", // Aura Indigo
-    "#FF7F50", // Sunset Coral
-    "#000080", // Deep Blue
+    "#6307a4ff", // Aura Indigo
+    "#fc622aff", // Sunset Coral
+    "#0606b3ff", // Deep Blue
     "#DC143C", // Crimson
-    "#2E8B57", // Sea Green
-    "#DAA520", // Goldenrod
-    "#8A2BE2", // Blue Violet
+    "#24c068ff", // Sea Green
+    "#ffc123ff", // Goldenrod
     "#FF1493", // Deep Pink
-    "#00CED1"  // Dark Turquoise
+    "#00CED1",  // Dark Turquoise,
+    "#FF9F40",
+    "#2ea7bcff",
 ];
 
 const SEGMENT_COLORS2 = [
