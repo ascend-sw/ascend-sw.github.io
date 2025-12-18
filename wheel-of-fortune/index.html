@@ -6,34 +6,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wheel of Fortune</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style-landing.css">
 </head>
 
 <body>
-    <div class="container">
-        <h1 id="result" class="result hidden"></h1>
-
-        <div class="wheel-container">
-            <canvas id="wheel" width="500" height="500"></canvas>
-            <div class="arrow-container">
-                <div class="arrow"></div>
+    <!-- Landing View -->
+    <div id="landing-view" class="landing-container">
+        <h1>Wheel of Fortune</h1>
+        <div class="landing-options">
+            <button id="landing-create-btn" class="primary-btn">Create New Team</button>
+            <div class="divider">OR</div>
+            <div class="join-team">
+                <input type="text" id="team-code-input" placeholder="Enter Team Code">
+                <button id="landing-join-btn">Join</button>
             </div>
         </div>
-
-        <div class="controls">
-            <div class="input-group">
-                <input type="text" id="name-input" placeholder="Enter a name">
-                <button id="add-btn">Add</button>
-            </div>
-
-        </div>
-
-        <button id="spin-btn">SPIN</button>
-
     </div>
-    <div id="stats" class="stats"></div>
-    <div class="bottom-controls">
-        <button id="sound-btn" class="icon-btn" title="Toggle Sound">🔊</button>
-        <button id="palette-btn" class="icon-btn" title="Toggle Colors">🎨</button>
+
+    <!-- App View -->
+    <div id="app-view" class="hidden">
+        <div class="container">
+            <h1 id="result" class="result hidden"></h1>
+
+            <div class="wheel-container">
+                <canvas id="wheel" width="500" height="500"></canvas>
+                <div class="arrow-container">
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <div class="input-group">
+                    <input type="text" id="name-input" placeholder="Enter a name">
+                    <button id="add-btn">Add</button>
+                </div>
+
+            </div>
+
+            <button id="spin-btn">SPIN</button>
+
+        </div>
+        <div id="stats" class="stats"></div>
+        <div class="bottom-controls">
+            <button id="sound-btn" class="icon-btn" title="Toggle Sound">🔊</button>
+            <button id="palette-btn" class="icon-btn" title="Toggle Colors">🎨</button>
+        </div>
     </div>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>

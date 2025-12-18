@@ -44,45 +44,106 @@ const WINNER_COLOR = "crimson";
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-const participantsRef = db.collection('participants');
+
+const urlParams = new URLSearchParams(window.location.search);
+const teamId = urlParams.get('team');
+
+const landingView = document.getElementById('landing-view');
+const appView = document.getElementById('app-view');
 
 let names = [];
-const initialNames = [
-    "Dan", "Wilco", "Andreea", "Veronika",
-    "Vivek", "Claudiu", "Stefania", "Alex", "Sener"
-];
+let participantsRef;
 
-// Seed data if empty
-participantsRef.get().then(snap => {
-    if (snap.empty) {
-        initialNames.forEach(name => {
-            participantsRef.add({ name, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
-        });
+if (teamId) {
+    landingView.classList.add('hidden');
+    appView.classList.remove('hidden');
+    initApp(teamId);
+} else {
+    landingView.classList.remove('hidden');
+    appView.classList.add('hidden');
+    initLanding();
+}
+
+function initLanding() {
+    const createBtn = document.getElementById('landing-create-btn');
+    const joinBtn = document.getElementById('landing-join-btn');
+    const codeInput = document.getElementById('team-code-input');
+
+    createBtn.addEventListener('click', () => {
+        const code = Math.random().toString(36).substring(2, 8).toUpperCase();
+        window.location.search = `?team=${code}`;
+    });
+
+    joinBtn.addEventListener('click', () => {
+        const code = codeInput.value.trim();
+        if (code) {
+            window.location.search = `?team=${code}`;
+        }
+    });
+
+    codeInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            const code = codeInput.value.trim();
+            if (code) {
+                window.location.search = `?team=${code}`;
+            }
+        }
+    });
+}
+
+function initApp(teamId) {
+    if (teamId) {
+        participantsRef = db.collection('teams').doc(teamId).collection('participants');
+    } else {
+        // Fallback or legacy
+        participantsRef = db.collection('participants');
     }
-});
 
-let isFirstLoad = true;
+    const initialNames = [
+        "Dan", "Wilco", "Andreea", "Veronika",
+        "Vivek", "Claudiu", "Stefania", "Alex", "Sener"
+    ];
 
-// Listen for updates
-participantsRef.orderBy('createdAt').onSnapshot(snapshot => {
-    names = snapshot.docs.map(doc => ({
-        id: doc.id,
-        name: doc.data().name
-    }));
+    const newTeamNames = ["Bob", "Alice", "Dan", "Mike", "Alex", "Andreea", "Maria", "Alexandra"];
 
-    // If it's Thursday (day 4), remove Stefania
-    if (new Date().getDay() === 4) {
-        names = names.filter(n => n.name !== "Stefania");
-    }
+    // Seed data if empty
+    participantsRef.get().then(snap => {
+        if (snap.empty) {
+            let namesToSeed = initialNames;
 
-    if (isFirstLoad) {
-        shuffleArray(names);
-        isFirstLoad = false;
-    }
+            if (teamId && teamId !== '4H794Z') {
+                namesToSeed = newTeamNames;
+            }
 
-    updateWheel();
-    updateStats();
-});
+            namesToSeed.forEach(name => {
+                participantsRef.add({ name, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+            });
+        }
+    });
+
+    let isFirstLoad = true;
+
+    // Listen for updates
+    participantsRef.orderBy('createdAt').onSnapshot(snapshot => {
+        names = snapshot.docs.map(doc => ({
+            id: doc.id,
+            name: doc.data().name
+        }));
+
+        // If it's Thursday (day 4), remove Stefania
+        if (new Date().getDay() === 4) {
+            names = names.filter(n => n.name !== "Stefania");
+        }
+
+        if (isFirstLoad) {
+            shuffleArray(names);
+            isFirstLoad = false;
+        }
+
+        updateWheel();
+        updateStats();
+    });
+}
 
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -456,6 +517,14 @@ paletteBtn.addEventListener('click', () => {
     }
     drawRouletteWheel();
 });
+
+const createTeamBtn = document.getElementById('create-team-btn');
+if (createTeamBtn) {
+    createTeamBtn.addEventListener('click', () => {
+        const code = Math.random().toString(36).substring(2, 8).toUpperCase();
+        window.location.search = `?team=${code}`;
+    });
+}
 
 // Initial draw
 if (activeColors === SEGMENT_COLORS) {
