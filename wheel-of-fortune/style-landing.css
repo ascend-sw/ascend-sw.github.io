@@ -73,9 +73,9 @@
 
 .join-team {
     display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    /* gap-3 */
+    flex-direction: row;
+    gap: 0.5rem;
+    /* gap-2 */
     width: 100%;
 }
 
@@ -87,7 +87,8 @@
     /* rounded-lg */
     font-size: 1rem;
     outline: none;
-    width: 100%;
+    flex: 1;
+    /* Take available space */
     box-sizing: border-box;
     /* Ensure padding doesn't affect width */
     transition: border-color 0.2s, box-shadow 0.2s;
@@ -107,7 +108,7 @@
     background-color: #3b82f6;
     /* blue-500 */
     color: white;
-    border: none;
+    border: 1px solid transparent;
     padding: 0.75rem 1.5rem;
     font-size: 1rem;
     border-radius: 0.5rem;
@@ -116,9 +117,23 @@
     transition: background-color 0.2s, transform 0.1s;
     font-weight: 600;
     /* font-semibold */
-    width: 100%;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     /* shadow */
+    box-sizing: border-box;
+    height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.primary-btn {
+    width: 100%;
+}
+
+#landing-join-btn {
+    width: auto;
+    padding: 0 0.75rem;
+    aspect-ratio: 1;
 }
 
 .primary-btn:hover,
