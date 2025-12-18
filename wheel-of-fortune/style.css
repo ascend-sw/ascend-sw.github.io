@@ -289,7 +289,9 @@ box-shadow 0.2s;
 .icon-btn.palette-alt {
     opacity: 0.6;
     background-color: #f0f0f0;
-}/* Add Name Component in Bottom Controls */
+}
+
+/* Add Name Component in Bottom Controls */
 .add-name-container {
     display: flex;
     align-items: center;
@@ -355,4 +357,12 @@ box-shadow 0.2s;
     background: transparent;
     transform: none;
     color: var(--primary-color);
+}
+
+.spin-button {
+    font-size: 1.25rem;
+    padding: 60px 60px;
+    border-radius: 60px;
+    width: 100px;
+    height: 100px;
 }
