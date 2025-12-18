@@ -31,11 +31,23 @@ body {
 }
 
 h1 {
-    position: absolute;
-    top: 20px;
-
     margin-bottom: 1.5rem;
     color: var(--secondary-color);
+}
+
+h1.winner {
+    position: absolute;
+    top: 0;
+
+    font-size: 3rem;
+    color: #1f2937;
+    /* gray-800 */
+    margin-bottom: 1rem;
+    font-weight: 800;
+    /* font-extrabold */
+    letter-spacing: -0.025em;
+    /* tracking-tight */
+
 }
 
 .wheel-container {
