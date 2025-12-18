@@ -54,6 +54,7 @@ h1.winner {
     position: relative;
     display: inline-block;
     margin-bottom: 2rem;
+    margin-top: 2rem;
 }
 
 canvas {
