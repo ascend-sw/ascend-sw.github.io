@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import { Play, RotateCcw, Users, Eye, EyeOff, Coffee, HelpCircle, Check, Crown, Plus, Save, LogOut, Copy, ArrowRight, Hash, Menu, List, X, CheckSquare, Trash2, Edit2, MessageSquare, MessageCircle, Link, Sun, Moon } from 'lucide-react';
+import { Play, RotateCcw, Users, Eye, EyeOff, Coffee, HelpCircle, Check, Crown, Plus, Save, LogOut, Copy, ArrowRight, Hash, Menu, List, X, CheckSquare, Trash2, Edit2, MessageSquare, MessageCircle, Link, Sun, Moon, LogIn } from 'lucide-react';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, signOut } from 'firebase/auth';
 import { getFirestore, doc, onSnapshot, setDoc, updateDoc, deleteField, collection } from 'firebase/firestore';
 
 /**
- * PLANNING POKER COMPONENT - COMPACT LAYOUT + URL SHARING + ANIMATIONS + THEMES + WIDER TABLE DISTRIBUTION
+ * PLANNING POKER COMPONENT - COMPACT LAYOUT + URL SHARING + ANIMATIONS + THEMES + WIDER TABLE + EXPLICIT JOIN + HEARTBEAT (AUTO-KICK)
  */
 
 const firebaseConfig = {
@@ -171,6 +171,7 @@ export default function PlanningPokerApp() {
     const [user, setUser] = useState(null);
     const [myName, setMyName] = useState('Player');
     const [isEditingName, setIsEditingName] = useState(false);
+    const [hasJoined, setHasJoined] = useState(false); // Tracks if user has confirmed entry in this session
 
     // Theme State
     const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -186,6 +187,7 @@ export default function PlanningPokerApp() {
 
     // Track leaving state
     const isLeavingRef = useRef(false);
+    const isCreatorRef = useRef(false); // Track if I created the room
 
     // Ticket Management
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -262,7 +264,7 @@ export default function PlanningPokerApp() {
         }
     }, []);
 
-    // --- 1.6 Cleanup on Tab Close ---
+    // --- 1.6 Cleanup on Tab Close (Immediate) ---
     useEffect(() => {
         const handleTabClose = () => {
             if (user && roomId && !isLeavingRef.current) {
@@ -277,6 +279,69 @@ export default function PlanningPokerApp() {
         window.addEventListener('beforeunload', handleTabClose);
         return () => window.removeEventListener('beforeunload', handleTabClose);
     }, [user, roomId]);
+
+    // --- 1.7 Heartbeat & Auto-Cleanup (Robustness) ---
+    // Heartbeat: Updates 'lastActive' every 5 seconds
+    useEffect(() => {
+        if(!user || !roomId || !hasJoined) return;
+
+        const sendHeartbeat = async () => {
+            const roomRef = doc(db, 'artifacts', appId, 'public', 'data', 'planning_poker_boards', roomId);
+            try {
+                await updateDoc(roomRef, {
+                    [`participants.${user.uid}.lastActive`]: Date.now()
+                });
+            } catch(e) {
+                // Silent fail for heartbeat to avoid console spam if room closes
+            }
+        };
+
+        const timer = setInterval(sendHeartbeat, 5000); // 5 seconds heartbeat
+        sendHeartbeat(); // Immediate beat
+        return () => clearInterval(timer);
+    }, [user, roomId, hasJoined]);
+
+    // Cleanup: One client (the elected Janitor) removes stale users
+    useEffect(() => {
+        if(!user || !roomId || !roomData.participants) return;
+
+        const cleanupStaleUsers = async () => {
+            const now = Date.now();
+            const staleThreshold = 15000; // 15 seconds without heartbeat = Ghost
+
+            const participantsArr = Object.values(roomData.participants);
+
+            // 1. Identify active users (who are sending heartbeats)
+            const activeParticipants = participantsArr
+                .filter(p => p.id && (now - (p.lastActive || now) < staleThreshold)); // If no lastActive, assume active for safety initially
+
+            if(activeParticipants.length === 0) return;
+
+            // 2. Elect a Janitor (Stable sort by ID string) - The user with the lowest ID string becomes Janitor
+            activeParticipants.sort((a,b) => (a.id || '').localeCompare(b.id || ''));
+            const janitorId = activeParticipants[0].id;
+
+            if(user.uid !== janitorId) return; // I am not the janitor, I do nothing
+
+            // 3. Identify Ghosts
+            const ghosts = participantsArr
+                .filter(p => p.id && p.lastActive && (now - p.lastActive > staleThreshold));
+
+            if(ghosts.length > 0) {
+                console.log("Removing ghosts:", ghosts.map(g => g.name));
+                const roomRef = doc(db, 'artifacts', appId, 'public', 'data', 'planning_poker_boards', roomId);
+                const updates = {};
+                ghosts.forEach(g => {
+                    updates[`participants.${g.id}`] = deleteField();
+                });
+                await updateDoc(roomRef, updates);
+            }
+        };
+
+        const timer = setInterval(cleanupStaleUsers, 5000); // Check every 5s
+        return () => clearInterval(timer);
+    }, [user, roomId, roomData.participants]);
+
 
     // --- 2. Firestore Sync Listener ---
     useEffect(() => {
@@ -300,19 +365,6 @@ export default function PlanningPokerApp() {
                     return;
                 }
 
-                // Auto-join
-                if (!isLeavingRef.current && (!data.participants || !data.participants[user.uid])) {
-                    updateDoc(roomRef, {
-                        [`participants.${user.uid}`]: {
-                            id: user.uid,
-                            name: localStorage.getItem('planning_poker_name') || myName,
-                            vote: null,
-                            timestamp: Date.now(),
-                            message: null
-                        }
-                    }).catch(e => console.error("Auto-join error", e));
-                }
-
                 setRoomData(data);
 
                 if (data.isRevealed) {
@@ -323,19 +375,26 @@ export default function PlanningPokerApp() {
             } else {
                 // Initialize new room
                 const firstTicket = { id: crypto.randomUUID(), title: 'First Ticket', score: null, timestamp: Date.now() };
+
+                // If I am the creator, add me immediately (skipping the Join Confirmation)
+                const initialParticipants = {};
+                if (isCreatorRef.current && user) {
+                    initialParticipants[user.uid] = {
+                        id: user.uid,
+                        name: localStorage.getItem('planning_poker_name') || myName,
+                        vote: null,
+                        timestamp: Date.now(),
+                        message: null,
+                        lastActive: Date.now()
+                    };
+                    isCreatorRef.current = false;
+                }
+
                 setDoc(roomRef, {
                     tickets: [firstTicket],
                     activeTicketId: firstTicket.id,
                     isRevealed: false,
-                    participants: {
-                        [user.uid]: {
-                            id: user.uid,
-                            name: localStorage.getItem('planning_poker_name') || myName,
-                            vote: null,
-                            timestamp: Date.now(),
-                            message: null
-                        }
-                    }
+                    participants: initialParticipants
                 });
             }
         }, (error) => console.error("Sync error:", error));
@@ -347,6 +406,8 @@ export default function PlanningPokerApp() {
 
     const handleCreateRoom = () => {
         isLeavingRef.current = false;
+        isCreatorRef.current = true; // Mark that I am the creator
+        setHasJoined(true); // Skip the "Ready to Play" screen
         const newId = Math.random().toString(36).substring(2, 8).toUpperCase();
         setRoomId(newId);
     };
@@ -354,8 +415,32 @@ export default function PlanningPokerApp() {
     const handleJoinRoom = () => {
         if (joinInput.trim().length > 0) {
             isLeavingRef.current = false;
+            isCreatorRef.current = false;
+            setHasJoined(false); // Enforce "Ready to Play" screen
             const id = joinInput.trim().toUpperCase();
             setRoomId(id);
+        }
+    };
+
+    const handleReadyToPlay = async () => {
+        if (!user || !roomId) return;
+
+        const roomRef = doc(db, 'artifacts', appId, 'public', 'data', 'planning_poker_boards', roomId);
+        try {
+            await updateDoc(roomRef, {
+                [`participants.${user.uid}`]: {
+                    id: user.uid,
+                    name: myName,
+                    vote: null,
+                    timestamp: Date.now(),
+                    message: null,
+                    lastActive: Date.now()
+                }
+            });
+            localStorage.setItem('planning_poker_name', myName);
+            setHasJoined(true);
+        } catch (e) {
+            console.error("Error joining room:", e);
         }
     };
 
@@ -377,7 +462,8 @@ export default function PlanningPokerApp() {
                 id: user.uid,
                 name: myName,
                 vote: card,
-                timestamp: Date.now()
+                timestamp: Date.now(),
+                lastActive: Date.now()
             }
         });
     };
@@ -409,7 +495,10 @@ export default function PlanningPokerApp() {
         const isCompleteProfile = existingParticipant && existingParticipant.id;
 
         if (isCompleteProfile) {
-            await updateDoc(roomRef, { [`participants.${user.uid}.message`]: msg });
+            await updateDoc(roomRef, {
+                [`participants.${user.uid}.message`]: msg,
+                [`participants.${user.uid}.lastActive`]: Date.now()
+            });
         } else {
             await updateDoc(roomRef, {
                 [`participants.${user.uid}`]: {
@@ -417,7 +506,8 @@ export default function PlanningPokerApp() {
                     name: myName,
                     vote: existingParticipant?.vote || null,
                     timestamp: existingParticipant?.timestamp || Date.now(),
-                    message: msg
+                    message: msg,
+                    lastActive: Date.now()
                 }
             });
         }
@@ -505,6 +595,7 @@ export default function PlanningPokerApp() {
         const roomRef = doc(db, 'artifacts', appId, 'public', 'data', 'planning_poker_boards', roomId);
         try { await updateDoc(roomRef, { [`participants.${user.uid}`]: deleteField() }); } catch (e) {}
         setRoomId(null);
+        setHasJoined(false);
         setRoomData({ tickets: [], activeTicketId: null, isRevealed: false, participants: {} });
         setTimeout(() => { isLeavingRef.current = false; }, 100);
     };
@@ -567,7 +658,7 @@ export default function PlanningPokerApp() {
     const isConsensus = stats && stats.max === stats.min;
 
 
-    // --- Render: LOBBY View ---
+    // --- Render: LOBBY View (No Room ID) ---
     if (!roomId) {
         return (
             <div className={`min-h-screen ${theme.bg} ${theme.text} font-sans flex flex-col items-center justify-center p-4 transition-colors duration-500`}>
@@ -655,6 +746,79 @@ export default function PlanningPokerApp() {
         );
     }
 
+    // --- Render: JOIN CONFIRMATION View (User hasn't explicitly joined this session yet) ---
+    // We check `!hasJoined` instead of `!isParticipant` to force a "Ready" confirmation on refresh/new session.
+
+    if (roomId && !hasJoined) {
+        return (
+            <div className={`min-h-screen ${theme.bg} ${theme.text} font-sans flex flex-col items-center justify-center p-4 transition-colors duration-500`}>
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                    {isDarkMode ? (
+                        <>
+                            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
+                            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-700" />
+                        </>
+                    ) : (
+                        <>
+                            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-300/20 rounded-full blur-3xl animate-pulse" />
+                            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-300/20 rounded-full blur-3xl animate-pulse delay-700" />
+                        </>
+                    )}
+                </div>
+
+                <button
+                    onClick={toggleTheme}
+                    className={`absolute top-6 right-6 p-3 rounded-full ${theme.panelBg} shadow-lg border ${theme.panelBorder} transition-all z-20`}
+                >
+                    {isDarkMode ? <Sun size={20} className="text-yellow-400" /> : <Moon size={20} className="text-slate-600" />}
+                </button>
+
+                <div className={`z-10 w-full max-w-md ${isDarkMode ? 'bg-slate-800/50' : 'bg-white/80'} backdrop-blur-xl border ${theme.panelBorder} rounded-3xl p-8 shadow-2xl`}>
+                    <div className="text-center mb-6">
+                        <h1 className={`text-2xl font-bold ${theme.accentText} mb-2`}>Joining Room <span className="text-blue-500 font-mono">{roomId}</span></h1>
+                        <p className={theme.textMuted}>Set your name before joining the table</p>
+                    </div>
+
+                    <div className="flex flex-col items-center gap-6">
+                        {/* Avatar Preview */}
+                        <div className="transform scale-150 py-4">
+                            <Avatar name={myName} hasVoted={false} isRevealed={false} isMe={true} message={null} isDarkMode={isDarkMode} />
+                        </div>
+
+                        <div className="w-full">
+                            <label className={`block text-xs font-semibold ${theme.textMuted} uppercase tracking-wider mb-2`}>Your Name</label>
+                            <input
+                                type="text"
+                                value={myName}
+                                onChange={(e) => {
+                                    setMyName(e.target.value);
+                                    localStorage.setItem('planning_poker_name', e.target.value);
+                                }}
+                                className={`w-full ${theme.inputBg} border ${theme.panelBorder} rounded-xl px-4 py-3 ${theme.accentText} focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all`}
+                                placeholder="Enter your name"
+                            />
+                        </div>
+
+                        <button
+                            onClick={handleReadyToPlay}
+                            className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 px-6 rounded-xl flex items-center justify-center gap-2 transition-all hover:scale-[1.02] shadow-lg shadow-emerald-600/30"
+                        >
+                            <LogIn size={24} />
+                            Ready to Play
+                        </button>
+
+                        <button
+                            onClick={() => { setRoomId(null); setHasJoined(false); }}
+                            className={`text-sm ${theme.textMuted} hover:text-red-400 transition-colors`}
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     // --- Render: GAME View ---
 
     return (
@@ -667,7 +831,7 @@ export default function PlanningPokerApp() {
                         <Users size={20} className="text-white" />
                     </div>
                     <div>
-                        <h1 className={`font-bold text-lg leading-tight ${theme.accentText} tracking-wide`}>Agile<span className="text-blue-400">Poker</span></h1>
+                        <h1 className={`font-bold text-lg leading-tight ${theme.accentText} tracking-wide`}>AgilePoker<span className="text-blue-400">.io</span></h1>
                         <div className="flex items-center gap-2 group cursor-pointer" onClick={copyRoomLink} title="Click to copy Invite Link">
                             <span className={`text-xs ${theme.textMuted}`}>Room: <span className="font-mono text-emerald-400 font-bold">{roomId}</span></span>
                             {copied ? (
@@ -1049,12 +1213,15 @@ export default function PlanningPokerApp() {
 
                     {/* OTHERS (Distributed in Arc) */}
                     {participantsList.filter(p => p.id !== user?.uid).map((player, index, arr) => {
-                        // Arc logic - Adjusted for wider distribution around the table
-                        const total = arr.length;
-                        const spread = 240; // Increased spread from 140 to 240 degrees to use sides
-                        const angleStep = spread / (total + 1);
-                        const startAngle = -(spread / 2);
-                        const angle = startAngle + (angleStep * (index + 1));
+                        // Full Circle Distribution Logic
+                        // We calculate spacing based on ALL players (including "Me")
+                        // "Me" is conceptually at 180 degrees (Bottom)
+                        const totalPlayers = participantsList.length;
+                        const angleStep = 360 / totalPlayers;
+
+                        // Start placing others clockwise from "Me"
+                        // If Me is 180, the first other starts at 180 + step
+                        const angle = 180 + (angleStep * (index + 1));
 
                         const rad = (angle - 90) * (Math.PI / 180);
                         const radius = 42;
