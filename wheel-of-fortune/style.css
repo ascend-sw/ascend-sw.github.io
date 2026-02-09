@@ -136,6 +136,38 @@ button:disabled {
     opacity: 1;
 }
 
+.last-winner {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    z-index: 100;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.last-winner .winner-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.last-winner .winner-date {
+    font-size: 0.8rem;
+    opacity: 0.85;
+}
+
+.last-winner.hidden {
+    display: none;
+}
+
 .controls {
     margin-bottom: 2rem;
     text-align: left;

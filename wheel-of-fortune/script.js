@@ -9,6 +9,7 @@ const arrowContainer = document.querySelector('.arrow-container');
 const stats = document.querySelector('.stats');
 const soundBtn = document.getElementById('sound-btn');
 const paletteBtn = document.getElementById('palette-btn');
+const lastWinnerDiv = document.getElementById('last-winner');
 
 const SEGMENT_COLORS = [
     "#6307a4ff", // Aura Indigo
@@ -57,6 +58,7 @@ const appView = document.getElementById('app-view');
 
 let names = [];
 let participantsRef;
+let teamDocRef;
 
 if (teamId) {
     landingView.classList.add('hidden');
@@ -97,7 +99,18 @@ function initLanding() {
 
 function initApp(teamId) {
     if (teamId) {
-        participantsRef = db.collection('teams').doc(teamId).collection('participants');
+        teamDocRef = db.collection('teams').doc(teamId);
+        participantsRef = teamDocRef.collection('participants');
+
+        // Load and display last winner
+        teamDocRef.onSnapshot(doc => {
+            if (doc.exists) {
+                const data = doc.data();
+                if (data.lastWinner) {
+                    displayLastWinner(data.lastWinner.name, data.lastWinner.date);
+                }
+            }
+        });
     } else {
         // Fallback or legacy
         participantsRef = db.collection('participants');
@@ -149,6 +162,25 @@ function shuffleArray(array) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
     }
+}
+
+function displayLastWinner(name, dateString) {
+    if (!lastWinnerDiv) return;
+
+    const date = new Date(dateString);
+    const formattedDate = date.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+
+    lastWinnerDiv.innerHTML = `
+        <span class="winner-name">🏆 ${name}</span>
+        <span class="winner-date">${formattedDate}</span>
+    `;
+    lastWinnerDiv.classList.remove('hidden');
 }
 
 shuffleArray(SEGMENT_COLORS);
@@ -320,6 +352,17 @@ function stopRotateWheel() {
     ctx.save();
     ctx.font = 'bold 30px Helvetica, Arial';
     const text = names[index].name;
+
+    // Save winner to Firebase with timestamp
+    if (teamDocRef) {
+        const now = new Date();
+        teamDocRef.set({
+            lastWinner: {
+                name: text,
+                date: now.toISOString()
+            }
+        }, { merge: true });
+    }
 
     // Highlight the winner on the wheel? Maybe just show text below.
     resultDiv.textContent = `Winner: ${text}`;
