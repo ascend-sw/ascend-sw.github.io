@@ -1,0 +1,26 @@
+if pagexray.cookieNamesThirdParties.length > 0
+    a#third-party-cookies
+
+    //- Group cookies by setting domain so the reader can see at a glance
+    //- which third party is responsible for how many cookies, instead of
+    //- a flat alphabetical list.
+    - const tpcUnique = pagexray.cookieNamesThirdParties.filter((v, i, a) => a.findIndex(t => t.name === v.name && t.domain === v.domain) === i)
+    - const tpcByDomain = {}
+    each c in tpcUnique
+        - if (!tpcByDomain[c.domain]) tpcByDomain[c.domain] = []
+        - tpcByDomain[c.domain].push(c.name)
+    - const tpcDomains = Object.keys(tpcByDomain).sort((a, b) => tpcByDomain[b].length - tpcByDomain[a].length)
+
+    details.iter-group(open)
+        summary.iter-group-summary
+            span.iter-group-title Third party cookies
+            span.iter-group-count #{tpcUnique.length}
+        .tpc-list
+            each domain in tpcDomains
+                .tpc-domain
+                    .tpc-domain-header
+                        span.tpc-domain-name #{domain}
+                        span.tpc-domain-count #{tpcByDomain[domain].length} #{tpcByDomain[domain].length === 1 ? 'cookie' : 'cookies'}
+                    ul.tpc-cookie-list
+                        each name in tpcByDomain[domain].sort()
+                            li #{name}
