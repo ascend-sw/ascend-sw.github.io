@@ -1,8 +1,0 @@
-.loader#output
-- const harFile = options.gzipHAR ? 'data/browsertime.har.gz' : 'data/browsertime.har'
-script(type='text/javascript').
-  // waterfall-tools' loadBuffer auto-detects gzip via magic bytes, so we
-  // hand it the raw response either way.
-  window.__waterfallBufferPromise = fetch('#{harFile}').then(r => r.arrayBuffer());
-
-include ./_waterfallRender.pug

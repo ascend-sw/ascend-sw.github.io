@@ -1,9 +1,0 @@
-if pageInfo.data.browsertime
-  p.small Tested #{timestamp} using #{h.cap(browserName || options.browsertime.browser)} #{browser.version} 
-    if options.multi && options.html.showScript
-      | (
-      a(href= rootPath + 'scripts.html')= 'script'
-      | ).
-    else if options.multi
-      | .
-    a(href= rootPath + 'settings.html')= '(runtime settings)'
