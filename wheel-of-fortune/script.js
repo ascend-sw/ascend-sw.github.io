@@ -59,6 +59,10 @@ const appView = document.getElementById('app-view');
 let names = [];
 let participantsRef;
 let teamDocRef;
+let winnerHistoryRef;
+let currentLastWinner = null;
+let topWinners = [];
+const RANKING_WINDOW_MS = 14 * 24 * 60 * 60 * 1000; // two weeks
 
 if (teamId) {
     landingView.classList.add('hidden');
@@ -101,15 +105,23 @@ function initApp(teamId) {
     if (teamId) {
         teamDocRef = db.collection('teams').doc(teamId);
         participantsRef = teamDocRef.collection('participants');
+        winnerHistoryRef = teamDocRef.collection('winnerHistory');
 
         // Load and display last winner
         teamDocRef.onSnapshot(doc => {
             if (doc.exists) {
                 const data = doc.data();
                 if (data.lastWinner) {
-                    displayLastWinner(data.lastWinner.name, data.lastWinner.date);
+                    currentLastWinner = data.lastWinner;
+                    renderLastWinnerPanel();
                 }
             }
+        });
+
+        // Load and rank winners from the past two weeks
+        winnerHistoryRef.orderBy('createdAt', 'desc').onSnapshot(snapshot => {
+            topWinners = computeTopWinners(snapshot.docs);
+            renderLastWinnerPanel();
         });
     } else {
         // Fallback or legacy
@@ -164,22 +176,70 @@ function shuffleArray(array) {
     }
 }
 
-function displayLastWinner(name, dateString) {
-    if (!lastWinnerDiv) return;
+function computeTopWinners(docs) {
+    const cutoff = Date.now() - RANKING_WINDOW_MS;
+    const stats = {};
 
-    const date = new Date(dateString);
-    const formattedDate = date.toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
+    docs.forEach(doc => {
+        const data = doc.data();
+        // createdAt is a pending serverTimestamp (null) until the write is acknowledged, so fall back to the client-recorded date
+        const timestamp = data.createdAt && data.createdAt.toDate ? data.createdAt.toDate().getTime() : new Date(data.date).getTime();
+        if (!data.name || isNaN(timestamp) || timestamp < cutoff) return;
+
+        const entry = stats[data.name] || { count: 0, lastWin: 0 };
+        entry.count += 1;
+        entry.lastWin = Math.max(entry.lastWin, timestamp);
+        stats[data.name] = entry;
     });
 
-    lastWinnerDiv.innerHTML = `
-        <span class="winner-name">🏆 ${name}</span>
-        <span class="winner-date">${formattedDate}</span>
-    `;
+    return Object.entries(stats)
+        .sort((a, b) => {
+            if (b[1].count !== a[1].count) return b[1].count - a[1].count;
+            // Tie-break single-win entries by most recent win first
+            if (a[1].count === 1) return b[1].lastWin - a[1].lastWin;
+            return 0;
+        })
+        .slice(0, 3)
+        .map(([name, entry]) => [name, entry.count]);
+}
+
+function renderLastWinnerPanel() {
+    if (!lastWinnerDiv) return;
+
+    if (!currentLastWinner && topWinners.length === 0) {
+        lastWinnerDiv.classList.add('hidden');
+        return;
+    }
+
+    let html = '';
+
+    if (currentLastWinner) {
+        const date = new Date(currentLastWinner.date);
+        const formattedDate = date.toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+
+        html += `
+            <span class="winner-name">🏆 ${currentLastWinner.name}</span>
+            <span class="winner-date">${formattedDate}</span>
+        `;
+    }
+
+    if (topWinners.length > 0) {
+        const medals = ['🥇', '🥈', '🥉'];
+        html += '<ol class="winner-ranking">';
+        topWinners.forEach(([name, count], i) => {
+            html += `<li><span>${medals[i]} ${name}</span><span class="ranking-count">${count}x</span></li>`;
+        });
+        html += '</ol>';
+        html += '<span class="ranking-label">Last two weeks ranking</span>';
+    }
+
+    lastWinnerDiv.innerHTML = html;
     lastWinnerDiv.classList.remove('hidden');
 }
 
@@ -362,6 +422,12 @@ function stopRotateWheel() {
                 date: now.toISOString()
             }
         }, { merge: true });
+
+        winnerHistoryRef.add({
+            name: text,
+            date: now.toISOString(),
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
     }
 
     // Highlight the winner on the wheel? Maybe just show text below.
