@@ -187,7 +187,7 @@ shuffleArray(SEGMENT_COLORS);
 shuffleArray(SEGMENT_COLORS2);
 
 function updateStats() {
-    stats.innerHTML = `${names.length} participants, ${Math.trunc((1 / names.length) * 100)}% chance to win`;
+    stats.innerHTML = `${names.length} participants, ${((1 / names.length) * 100).toFixed(2)}% chance to win`;
 }
 updateStats();
 
