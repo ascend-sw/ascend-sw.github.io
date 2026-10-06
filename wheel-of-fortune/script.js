@@ -236,7 +236,7 @@ function renderLastWinnerPanel() {
             html += `<li><span>${medals[i]} ${name}</span><span class="ranking-count">${count}x</span></li>`;
         });
         html += '</ol>';
-        html += '<span class="ranking-label">Last two weeks ranking</span>';
+        html += '<span class="ranking-label">Last two weeks</span>';
     }
 
     lastWinnerDiv.innerHTML = html;
